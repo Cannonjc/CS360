@@ -57,7 +57,7 @@ ul{
 	float: left;
 	list-style-type: none;
 }
-li{
+li.menu{
 	display: inline;
 	padding: 5px;
 	font-size: 1.7em;
