@@ -1,6 +1,9 @@
 #My makefile for Lab_2
 
-all: client server
+all: sigint client server
+
+sigint:
+	g++ -o sigint sigint.cpp
 
 client:
 	g++ -o stat stat.cpp

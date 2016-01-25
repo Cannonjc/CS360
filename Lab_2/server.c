@@ -93,24 +93,36 @@ int main(int argc, char* argv[])
         memset(pBuffer,0,sizeof(pBuffer));
         read(hSocket,pBuffer,BUFFER_SIZE);
         printf("Got from browser \n%s\n",pBuffer);
-
         
         memset(pBuffer,0,sizeof(pBuffer));
-        sprintf(pBuffer,"HTTP/1.1 200 OK\r\n\r\n<html>hello world</html>\n");
+        sprintf(pBuffer,
+                "HTTP/1.1 200 OK\r\n\
+                Content-Type: text/html\
+                \r\n\r\n\
+                <html>hello world</html>\n");
+        
         write(hSocket,pBuffer,strlen(pBuffer));
+        
+        linger lin;
+        unsigned int y = sizeof(lin);
+        lin.l_onoff =1;
+        lin.l_linger=10;
+        setsockopt(hSocket,SOL_SOCKET,SO_LINGER,sizeof(lin));
+        shutdown(hSocket,SHUT_RDWR);
+        
         
 //        if(strcmp(pBuffer,MESSAGE) == 0)
 //            printf("\nThe messages match");
 //        else
 //            printf("\nSomething was changed in the message");
 //
-//    printf("\nClosing the socket");
-//        /* close socket */
-//        if(close(hSocket) == SOCKET_ERROR)
-//        {
-//         printf("\nCould not close socket\n");
-//         return 0;
-//        }
+        printf("\nClosing the socket");
+        /* close socket */
+        if(close(hSocket) == SOCKET_ERROR)
+        {
+            printf("\nCould not close socket\n");
+            return 0;
+        }
     }
     return 0;
 }
