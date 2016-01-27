@@ -150,14 +150,14 @@ string getFileName(char *message)
     string name = "";
     bool finding = false;
     for(int i = 0; message[i] != '\0'; i++) {
-        if (finding && isspace(it)) {
+        if (finding && isspace(message[i])) {
             return name;
         }
-        if (isspace(it)) {
+        if (isspace(message[i])) {
             finding = !finding;
         }
         if (finding) {
-            name +=it;
+            name +=message[i];
         }
     }
     return "";
