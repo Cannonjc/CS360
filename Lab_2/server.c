@@ -292,6 +292,9 @@ int main(int argc, char* argv[])
         for (int i = 0; i < headerLines.size(); i++) {
             printf("[%d] %s\n",i,headerLines[i]);
         }
+        printf("\n=======================\n");
+        printf("Headers are finished\n");
+        printf("=======================\n\n");
         
 //        strcpy(pBuffer,MESSAGE);
 //        printf("\nSending \"%s\" to client\n\n",pBuffer);
