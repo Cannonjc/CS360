@@ -172,7 +172,7 @@ string serve(string res)
     //std::string rs = path + requested resource
     //use rs inplace of argv[1]
     
-    if(stat(resourse.c_str(), &filestat)) {
+    if(stat(resource.c_str(), &filestat)) {
         printf("ERROR in stat\n");
         //return 404 not found headers
     }
