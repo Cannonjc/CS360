@@ -310,17 +310,18 @@ int main(int argc, char* argv[])
         printf("Status line %s\n",startline);
         string ending = getFileName(startline);
         printf("testing filename: %s\n\n", ending.c_str());
-        string fileName = prefix + ending;
-        string output = serve(fileName);
+        if(ending != "/favicon.ico") {
+            string fileName = prefix + ending;
+            string output = serve(fileName);
         
-        vector<char *> headerLines;
-        GetHeaderLines(headerLines,hSocket,false);
-        for (int i = 0; i < headerLines.size(); i++) {
-            printf("[%d] %s\n",i,headerLines[i]);
-        }
-        printf("\n=======================\n");
-        printf("Headers are finished\n");
-        printf("=======================\n\n");
+            vector<char *> headerLines;
+            GetHeaderLines(headerLines,hSocket,false);
+            for (int i = 0; i < headerLines.size(); i++) {
+                printf("[%d] %s\n",i,headerLines[i]);
+            }
+            printf("\n=======================\n");
+            printf("Headers are finished\n");
+            printf("=======================\n\n");
         
         
 //        strcpy(pBuffer,MESSAGE);
@@ -329,22 +330,22 @@ int main(int argc, char* argv[])
         // read(hSocket,pBuffer,BUFFER_SIZE);
         // printf("Got from browser \n%s\n\n",pBuffer);
         
-        memset(pBuffer,0,sizeof(pBuffer));
-        sprintf(pBuffer,
-                "HTTP/1.1 200 OK\r\n\
-                Content-Type: text/html\
-                \r\n\r\n\
-                <html>hello world</html>\n");
+            memset(pBuffer,0,sizeof(pBuffer));
+            sprintf(pBuffer,
+                    "HTTP/1.1 200 OK\r\n\
+                    Content-Type: text/html\
+                    \r\n\r\n\
+                    <html>hello world</html>\n");
         
-        write(hSocket,pBuffer,strlen(pBuffer));
+            write(hSocket,pBuffer,strlen(pBuffer));
         
-        linger lin;
-        unsigned int y = sizeof(lin);
-        lin.l_onoff =1;
-        lin.l_linger=10;
-        setsockopt(hSocket,SOL_SOCKET,SO_LINGER,&lin,sizeof(lin));
-        shutdown(hSocket,SHUT_RDWR);
-        
+            linger lin;
+            unsigned int y = sizeof(lin);
+            lin.l_onoff =1;
+            lin.l_linger=10;
+            setsockopt(hSocket,SOL_SOCKET,SO_LINGER,&lin,sizeof(lin));
+            shutdown(hSocket,SHUT_RDWR);
+        }
         
 //        if(strcmp(pBuffer,MESSAGE) == 0)
 //            printf("\nThe messages match");
