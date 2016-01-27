@@ -1,16 +1,78 @@
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <netinet/in.h>
+#include <iostream>
 #include <netdb.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <dirent.h>
+
+#include <utils.cpp>
 
 #define SOCKET_ERROR        -1
-#define BUFFER_SIZE         100
+#define BUFFER_SIZE         1000
 #define MESSAGE             "This is the message I'm sending back and forth"
 #define QUEUE_SIZE          5
+
+
+void serve(int conn_sock)
+{
+    struct stat filestat;
+    //std::string rs = path + requested resource
+    //use rs inplace of argv[1]
+    
+    if(stat(argv[1], &filestat)) {
+        printf("ERROR in stat\n");
+        //return 404 not found headers
+    }
+    if(S_ISREG(filestat.st_mode)) {
+        cout << argv[1] << " is a regular file \n";
+        cout << "file size = "<<filestat.st_size <<"\n";
+        FILE *fp = fopen(argv[1],"r");
+        char *buff = (char *)malloc(filestat.st_size);
+        fread(buff,filestat.st_size,1,fp);
+        printf("Got\n%s\n", buff);
+        //format headers, read file, send it to client
+    }
+    if(S_ISDIR(filestat.st_mode)) {
+        cout << argv[1] << " is a directory \n";
+        DIR *dirp;
+        struct dirent *dp;
+        
+        dirp = opendir(argv[1]);
+        while ((dp = readdir(dirp)) != NULL)
+            printf("name %s\n", dp->d_name);
+        (void)closedir(dirp);
+        //look for index.html(run stat function again)
+        //if(stat(rs+"/index.html", &filestat))
+        //{
+            //index doesnt exist
+            //read dir listing
+            //generate html
+            //send appropriate headers and body to client
+        //}
+        //else
+        //{
+                //formate headers, read index.hmtl, send all to client
+        //}
+    }
+}
+int get_file_size(std::string path)
+{
+    struct stat filestat;
+    if(stat(path.c_str(), &filestat))
+    {
+        return -1;
+    }
+    return filestat.st_size;
+}
+std::string get_file_contents(const char* filename)
+{
+    
+}
 
 int main(int argc, char* argv[])
 {
@@ -85,6 +147,8 @@ int main(int argc, char* argv[])
         /* get the connected socket */
         hSocket=accept(hServerSocket,(struct sockaddr*)&Address,(socklen_t *)&nAddressSize);
 
+        //need to parse to get headers, and then get the url.. or file/dir asked for
+        //chrome asks 2 request. one with favicon.ico, if this, return 200 ok
         printf("\nGot a connection from %X (%d)\n",
               Address.sin_addr.s_addr,
               ntohs(Address.sin_port));
@@ -107,7 +171,7 @@ int main(int argc, char* argv[])
         unsigned int y = sizeof(lin);
         lin.l_onoff =1;
         lin.l_linger=10;
-        setsockopt(hSocket,SOL_SOCKET,SO_LINGER,sizeof(lin));
+        setsockopt(hSocket,SOL_SOCKET,SO_LINGER,&lin,sizeof(lin));
         shutdown(hSocket,SHUT_RDWR);
         
         
