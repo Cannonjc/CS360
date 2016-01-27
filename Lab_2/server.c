@@ -208,7 +208,9 @@ void serve(int connectionSocket, char buffer[], string res)
         
         dirp = opendir(resource.c_str());
         while ((dp = readdir(dirp)) != NULL) {
-            result += "<li> " + dp->d_name + "</li>\n";
+            result += "<li> "; 
+            result.append(dp->d_name);
+            result += "</li>\n";
             printf("name %s\n", dp->d_name);
         }
         result += "</ul>\n</html>";
