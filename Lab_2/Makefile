@@ -9,4 +9,4 @@ client:
 	g++ -o stat stat.cpp
 
 server:
-	g++ -o server server.c utils.cpp
+	g++ -o server server.c
