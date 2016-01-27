@@ -169,7 +169,7 @@ string serve(string res)
 {
     struct stat filestat;
     string resource = res;
-    printf("resource: %s\n", resource);
+    printf("resource: %s\n", resource.c_str());
     //std::string rs = path + requested resource
     //use rs inplace of argv[1]
     
@@ -325,9 +325,9 @@ int main(int argc, char* argv[])
         
 //        strcpy(pBuffer,MESSAGE);
 //        printf("\nSending \"%s\" to client\n\n",pBuffer);
-        memset(pBuffer,0,sizeof(pBuffer));
-        read(hSocket,pBuffer,BUFFER_SIZE);
-        printf("Got from browser \n%s\n\n",pBuffer);
+        // memset(pBuffer,0,sizeof(pBuffer));
+        // read(hSocket,pBuffer,BUFFER_SIZE);
+        // printf("Got from browser \n%s\n\n",pBuffer);
         
         memset(pBuffer,0,sizeof(pBuffer));
         sprintf(pBuffer,
