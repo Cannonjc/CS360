@@ -165,7 +165,7 @@ string getFileName(char *message)
 
 
 //return the error, or html
-void serve(int connectionSocket, char buffer, string res)
+void serve(int connectionSocket, char buffer[], string res)
 {
     struct stat filestat;
     string resource = res;
