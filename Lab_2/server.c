@@ -17,6 +17,8 @@
 #define MAX_MSG_SZ      1024
 #define QUEUE_SIZE          5
 
+using namespace std;
+
 bool isWhitespace(char c)
 { switch (c)
     {
@@ -202,8 +204,6 @@ std::string get_file_contents(const char* filename)
 {
     
 }
-
-using namespace std;
 
 int main(int argc, char* argv[])
 {
