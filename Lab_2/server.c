@@ -173,12 +173,12 @@ string serve(string res)
     //use rs inplace of argv[1]
     
     if(stat(resource.c_str(), &filestat)) {
-        printf("ERROR in stat\n");
+        printf("ERROR in stat\n\n");
         //return 404 not found headers
     }
     if(S_ISREG(filestat.st_mode)) {
         cout << resource << " is a regular file \n";
-        cout << "file size = "<<filestat.st_size <<"\n";
+        cout << "file size = "<<filestat.st_size <<"\n\n";
         FILE *fp = fopen(resource.c_str(),"r");
         char *buff = (char *)malloc(filestat.st_size);
         fread(buff,filestat.st_size,1,fp);
