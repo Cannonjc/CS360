@@ -176,7 +176,7 @@ void serve(int connectionSocket, char buffer[], string res)
     if(stat(resource.c_str(), &filestat)) {
         printf("ERROR in stat\n\n");
         memset(buffer,0,sizeof(buffer));
-            sprintf(buffer,"HTTP/1.1 404 Not Found\r\n\r\n<html><h1>NOT FOUNT</h1></html>\n");
+            sprintf(buffer,"HTTP/1.1 404 Not Found\r\n\r\n<html><h1>NOT FOUND</h1></html>\n");
             write(connectionSocket,buffer,strlen(buffer));
             return;
         //return 404 not found headers
@@ -204,17 +204,21 @@ void serve(int connectionSocket, char buffer[], string res)
         cout << resource << " is a directory \n\n";
         DIR *dirp;
         struct dirent *dp;
+        string result = "<html>\n<h1>Directory " + res + "</h1>\n<ul>\n";
         
         dirp = opendir(resource.c_str());
-        while ((dp = readdir(dirp)) != NULL)
+        while ((dp = readdir(dirp)) != NULL) {
+            result += "<li> " + dp-d_name + "</li>\n";
             printf("name %s\n", dp->d_name);
+        }
+        result += "</ul>\n</html>";
         (void)closedir(dirp);
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,
                 "HTTP/1.1 200 OK\r\n\
                 Content-Type: text/html\
                 \r\n\r\n\
-                <html>hello world</html>\n");
+                %s\n",result.c_str());
     
         write(connectionSocket,buffer,strlen(buffer));
 
