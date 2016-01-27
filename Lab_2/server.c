@@ -186,6 +186,7 @@ void serve(int connectionSocket, char buffer[], string res)
         cout << "file size = "<<filestat.st_size <<"\n\n";
         FILE *fp = fopen(resource.c_str(),"r");
         char *buff = (char *)malloc(filestat.st_size);
+        string extension = res.substr(res.find_last_of(".")+1);
         fread(buff,filestat.st_size,1,fp);
         printf("Got\n%s\n", buff);
         memset(buffer,0,sizeof(buffer));
@@ -196,10 +197,11 @@ void serve(int connectionSocket, char buffer[], string res)
                 <html>hello world</html>\n");
     
         write(connectionSocket,buffer,strlen(buffer));
+        printf("extension is : %s\n", extension.c_str());
         //format headers, read file, send it to client
     }
     if(S_ISDIR(filestat.st_mode)) {
-        cout << resource << " is a directory \n";
+        cout << resource << " is a directory \n\n";
         DIR *dirp;
         struct dirent *dp;
         
@@ -215,7 +217,7 @@ void serve(int connectionSocket, char buffer[], string res)
                 <html>hello world</html>\n");
     
         write(connectionSocket,buffer,strlen(buffer));
-        
+
         //look for index.html(run stat function again)
         //if(stat(rs+"/index.html", &filestat))
         //{
