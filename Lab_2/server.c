@@ -175,9 +175,9 @@ void serve(int connectionSocket, char buffer, string res)
     
     if(stat(resource.c_str(), &filestat)) {
         printf("ERROR in stat\n\n");
-        memset(pBuffer,0,sizeof(pBuffer));
-            sprintf(pBuffer,"HTTP/1.1 404 Not Foune\r\n\r\n");
-            write(connectionSocket,pBuffer,strlen(pBuffer));
+        memset(buffer,0,sizeof(buffer));
+            sprintf(buffer,"HTTP/1.1 404 Not Foune\r\n\r\n");
+            write(connectionSocket,buffer,strlen(buffer));
             return;
         //return 404 not found headers
     }
