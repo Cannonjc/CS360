@@ -293,8 +293,8 @@ int main(int argc, char* argv[])
             printf("[%d] %s\n",i,headerLines[i]);
         }
         
-        strcpy(pBuffer,MESSAGE);
-        printf("\nSending \"%s\" to client",pBuffer);
+//        strcpy(pBuffer,MESSAGE);
+//        printf("\nSending \"%s\" to client\n\n",pBuffer);
         memset(pBuffer,0,sizeof(pBuffer));
         read(hSocket,pBuffer,BUFFER_SIZE);
         printf("Got from browser \n%s\n",pBuffer);
