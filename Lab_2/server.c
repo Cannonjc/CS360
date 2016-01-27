@@ -9,10 +9,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <vector>
 
 #define SOCKET_ERROR        -1
 #define BUFFER_SIZE         1000
 #define MESSAGE             "This is the message I'm sending back and forth"
+#define MAX_MSG_SZ      1024
 #define QUEUE_SIZE          5
 
 bool isWhitespace(char c)
