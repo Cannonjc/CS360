@@ -301,12 +301,6 @@ int main(int argc, char* argv[])
               Address.sin_addr.s_addr,
               ntohs(Address.sin_port));
         
-//        strcpy(pBuffer,MESSAGE);
-//        printf("\nSending \"%s\" to client\n\n",pBuffer);
-        memset(pBuffer,0,sizeof(pBuffer));
-        read(hSocket,pBuffer,BUFFER_SIZE);
-        printf("Got from browser \n%s\n",pBuffer);
-        
         
         char *startline = GetLine(hSocket);
         printf("Status line %s\n",startline);
@@ -321,6 +315,13 @@ int main(int argc, char* argv[])
         printf("\n=======================\n");
         printf("Headers are finished\n");
         printf("=======================\n\n");
+        
+        
+//        strcpy(pBuffer,MESSAGE);
+//        printf("\nSending \"%s\" to client\n\n",pBuffer);
+        memset(pBuffer,0,sizeof(pBuffer));
+        read(hSocket,pBuffer,BUFFER_SIZE);
+        printf("Got from browser \n%s\n\n",pBuffer);
         
         memset(pBuffer,0,sizeof(pBuffer));
         sprintf(pBuffer,
