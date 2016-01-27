@@ -172,25 +172,25 @@ string serve(string res)
     //std::string rs = path + requested resource
     //use rs inplace of argv[1]
     
-    if(stat(rs.c_str(), &filestat)) {
+    if(stat(resourse.c_str(), &filestat)) {
         printf("ERROR in stat\n");
         //return 404 not found headers
     }
     if(S_ISREG(filestat.st_mode)) {
-        cout << rs << " is a regular file \n";
+        cout << resource << " is a regular file \n";
         cout << "file size = "<<filestat.st_size <<"\n";
-        FILE *fp = fopen(rs.c_str(),"r");
+        FILE *fp = fopen(resource.c_str(),"r");
         char *buff = (char *)malloc(filestat.st_size);
         fread(buff,filestat.st_size,1,fp);
         printf("Got\n%s\n", buff);
         //format headers, read file, send it to client
     }
     if(S_ISDIR(filestat.st_mode)) {
-        cout << rs << " is a directory \n";
+        cout << resource << " is a directory \n";
         DIR *dirp;
         struct dirent *dp;
         
-        dirp = opendir(rs.c_str());
+        dirp = opendir(resource.c_str());
         while ((dp = readdir(dirp)) != NULL)
             printf("name %s\n", dp->d_name);
         (void)closedir(dirp);
@@ -241,7 +241,7 @@ int main(int argc, char* argv[])
     else
       {
           nHostPort=atoi(argv[1]);
-          prefix = argv[2]
+          prefix = argv[2];
       }
 
     printf("\nStarting server");
