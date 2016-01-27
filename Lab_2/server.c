@@ -164,7 +164,7 @@ string getFileName(char *message)
 }
 
 
-
+//return the error, or html
 string serve(string res)
 {
     struct stat filestat;
