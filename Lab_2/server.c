@@ -21,28 +21,29 @@
 void serve(int conn_sock)
 {
     struct stat filestat;
+    std::string rs = "";
     //std::string rs = path + requested resource
     //use rs inplace of argv[1]
     
-    if(stat(argv[1], &filestat)) {
+    if(stat(rs, &filestat)) {
         printf("ERROR in stat\n");
         //return 404 not found headers
     }
     if(S_ISREG(filestat.st_mode)) {
-        cout << argv[1] << " is a regular file \n";
+        cout << rs << " is a regular file \n";
         cout << "file size = "<<filestat.st_size <<"\n";
-        FILE *fp = fopen(argv[1],"r");
+        FILE *fp = fopen(rs,"r");
         char *buff = (char *)malloc(filestat.st_size);
         fread(buff,filestat.st_size,1,fp);
         printf("Got\n%s\n", buff);
         //format headers, read file, send it to client
     }
     if(S_ISDIR(filestat.st_mode)) {
-        cout << argv[1] << " is a directory \n";
+        cout << rs << " is a directory \n";
         DIR *dirp;
         struct dirent *dp;
         
-        dirp = opendir(argv[1]);
+        dirp = opendir(rs);
         while ((dp = readdir(dirp)) != NULL)
             printf("name %s\n", dp->d_name);
         (void)closedir(dirp);
