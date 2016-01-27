@@ -153,11 +153,11 @@ string getFileName(char *message)
         if (finding && isspace(message[i])) {
             return name;
         }
-        if (isspace(message[i])) {
-            finding = !finding;
-        }
         if (finding) {
             name +=message[i];
+        }
+        if (isspace(message[i])) {
+            finding = !finding;
         }
     }
     return "";
