@@ -149,7 +149,7 @@ string getFileName(char *message)
 {
     string name = "";
     bool finding = false;
-    for(char* it = message; *it; ++it) {
+    for(int i = 0; message[i] != '\0'; i++) {
         if (finding && isspace(it)) {
             return name;
         }
