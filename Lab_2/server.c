@@ -188,6 +188,14 @@ void serve(int connectionSocket, char buffer[], string res)
         char *buff = (char *)malloc(filestat.st_size);
         fread(buff,filestat.st_size,1,fp);
         printf("Got\n%s\n", buff);
+        memset(buffer,0,sizeof(buffer));
+        sprintf(buffer,
+                "HTTP/1.1 200 OK\r\n\
+                Content-Type: text/html\
+                \r\n\r\n\
+                <html>hello world</html>\n");
+    
+        write(connectionSocket,buffer,strlen(buffer));
         //format headers, read file, send it to client
     }
     if(S_ISDIR(filestat.st_mode)) {
