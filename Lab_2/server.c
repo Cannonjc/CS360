@@ -203,6 +203,8 @@ std::string get_file_contents(const char* filename)
     
 }
 
+using namespace std;
+
 int main(int argc, char* argv[])
 {
     int hSocket,hServerSocket;  /* handle to socket */
