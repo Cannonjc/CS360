@@ -207,6 +207,15 @@ void serve(int connectionSocket, char buffer[], string res)
         while ((dp = readdir(dirp)) != NULL)
             printf("name %s\n", dp->d_name);
         (void)closedir(dirp);
+        memset(buffer,0,sizeof(buffer));
+        sprintf(buffer,
+                "HTTP/1.1 200 OK\r\n\
+                Content-Type: text/html\
+                \r\n\r\n\
+                <html>hello world</html>\n");
+    
+        write(connectionSocket,buffer,strlen(buffer));
+        
         //look for index.html(run stat function again)
         //if(stat(rs+"/index.html", &filestat))
         //{
