@@ -163,6 +163,20 @@ string getFileName(char *message)
     return "";
 }
 
+bool indexFile(string str)
+{
+    printf("testing directory for: %s\n", str.c_str());
+    struct stat fileStat;
+    if (stat(res.c_str(),&fileStat)) {
+        return false;
+    }
+    if (S_ISREG(fileStat.st_mode)) {
+        return true;
+    }
+    if (S_ISDIR(fileStat.st_mode)) {
+        return false;
+    }
+}
 
 //return the error, or html
 void serve(int connectionSocket, char buffer[], string res)
@@ -170,8 +184,7 @@ void serve(int connectionSocket, char buffer[], string res)
     struct stat filestat;
     string resource = res;
     printf("resource: %s\n", resource.c_str());
-    //std::string rs = path + requested resource
-    //use rs inplace of argv[1]
+
     
     if(stat(resource.c_str(), &filestat)) {
         printf("ERROR in stat\n\n");
@@ -204,17 +217,21 @@ void serve(int connectionSocket, char buffer[], string res)
         cout << resource << " is a directory \n\n";
         DIR *dirp;
         struct dirent *dp;
-        string result = "<html>\n<h1>Directory " + res + "</h1>\n<ul>\n";
+        string result = "<html>\n<h1>Directory for " + res + "</h1>\n<ul>\n";
         
         dirp = opendir(resource.c_str());
         while ((dp = readdir(dirp)) != NULL) {
             result += "<li> "; 
             result.append(dp->d_name);
             result += "</li>\n";
-            printf("name %s\n", dp->d_name);
+            //printf("name %s\n", dp->d_name);
         }
         result += "</ul>\n</html>";
         (void)closedir(dirp);
+        if (indexFile(res+"/index.html")) {
+            serve(connectionSocket,buffer,res+"/index.html");
+            return;
+        }
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,
                 "HTTP/1.1 200 OK\r\n\
