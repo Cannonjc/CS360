@@ -283,6 +283,13 @@ int main(int argc, char* argv[])
         printf("\nGot a connection from %X (%d)\n",
               Address.sin_addr.s_addr,
               ntohs(Address.sin_port));
+        
+        char *startline = GetLine(hSocket);
+        printf("Status line %s\n\n",startline);
+        
+        vector<char *> headerLines;
+        GetHeaderLines(headerLines,hSocket,false);
+        
         strcpy(pBuffer,MESSAGE);
         printf("\nSending \"%s\" to client",pBuffer);
         memset(pBuffer,0,sizeof(pBuffer));
