@@ -169,6 +169,7 @@ string serve(string res)
 {
     struct stat filestat;
     string resource = res;
+    printf("resource: %s\n", resource);
     //std::string rs = path + requested resource
     //use rs inplace of argv[1]
     
