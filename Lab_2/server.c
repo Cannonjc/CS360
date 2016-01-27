@@ -304,7 +304,7 @@ int main(int argc, char* argv[])
         char *startline = GetLine(hSocket);
         printf("Status line %s\n",startline);
         string ending = getFileName(startline);
-        printf("testing filename: %s\n\n", ending);
+        printf("testing filename: %s\n\n", ending.c_str());
         
         vector<char *> headerLines;
         GetHeaderLines(headerLines,hSocket,false);
