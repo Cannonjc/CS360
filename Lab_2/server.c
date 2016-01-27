@@ -289,6 +289,9 @@ int main(int argc, char* argv[])
         
         vector<char *> headerLines;
         GetHeaderLines(headerLines,hSocket,false);
+        for (int i = 0; i < headerLines.size(); i++) {
+            printf("[%d] %s\n",i,headerLines[i]);
+        }
         
         strcpy(pBuffer,MESSAGE);
         printf("\nSending \"%s\" to client",pBuffer);
