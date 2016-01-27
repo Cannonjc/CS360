@@ -145,6 +145,23 @@ void GetHeaderLines(std::vector<char *> &headerLines, int skt, bool envformat)
     free(tline);
 }
 
+string getFileName(char *message)
+{
+    string name = "";
+    bool finding = false;
+    for(char* it = message; *it; ++it) {
+        if (finding && isspace(it)) {
+            return name;
+        }
+        if (isspace(it)) {
+            finding = !finding;
+        }
+        if (finding) {
+            name +=it;
+        }
+    }
+    return "";
+}
 
 
 
@@ -200,7 +217,7 @@ int get_file_size(std::string path)
     }
     return filestat.st_size;
 }
-std::string get_file_contents(const char* filename)
+string get_file_contents(const char* filename)
 {
     
 }
@@ -285,7 +302,9 @@ int main(int argc, char* argv[])
               ntohs(Address.sin_port));
         
         char *startline = GetLine(hSocket);
-        printf("Status line %s\n\n",startline);
+        printf("Status line %s\n",startline);
+        string ending = getFileName(startline);
+        printf("testing filename: %s\n\n", ending);
         
         vector<char *> headerLines;
         GetHeaderLines(headerLines,hSocket,false);
