@@ -167,7 +167,7 @@ bool indexFile(string str)
 {
     printf("testing directory for: %s\n", str.c_str());
     struct stat fileStat;
-    if (stat(res.c_str(),&fileStat)) {
+    if (stat(str.c_str(),&fileStat)) {
         return false;
     }
     if (S_ISREG(fileStat.st_mode)) {
