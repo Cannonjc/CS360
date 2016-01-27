@@ -165,7 +165,7 @@ string getFileName(char *message)
 
 
 //return the error, or html
-string serve(string res)
+void serve(int connectionSocket, char buffer, string res)
 {
     struct stat filestat;
     string resource = res;
@@ -175,6 +175,10 @@ string serve(string res)
     
     if(stat(resource.c_str(), &filestat)) {
         printf("ERROR in stat\n\n");
+        memset(pBuffer,0,sizeof(pBuffer));
+            sprintf(pBuffer,"HTTP/1.1 404 Not Foune\r\n\r\n");
+            write(connectionSocket,pBuffer,strlen(pBuffer));
+            return;
         //return 404 not found headers
     }
     if(S_ISREG(filestat.st_mode)) {
@@ -208,7 +212,6 @@ string serve(string res)
                 //formate headers, read index.hmtl, send all to client
         //}
     }
-    return "";
 }
 int get_file_size(std::string path)
 {
@@ -312,32 +315,32 @@ int main(int argc, char* argv[])
         printf("testing filename: %s\n\n", ending.c_str());
         if(ending != "/favicon.ico") {
             string fileName = prefix + ending;
-            string output = serve(fileName);
+            serve(hSocket, pBuffer, fileName);
         
             vector<char *> headerLines;
             GetHeaderLines(headerLines,hSocket,false);
-            for (int i = 0; i < headerLines.size(); i++) {
-                printf("[%d] %s\n",i,headerLines[i]);
-            }
-            printf("\n=======================\n");
-            printf("Headers are finished\n");
-            printf("=======================\n\n");
+            // for (int i = 0; i < headerLines.size(); i++) {
+            //     printf("[%d] %s\n",i,headerLines[i]);
+            // }
+            // printf("\n=======================\n");
+            // printf("Headers are finished\n");
+            // printf("=======================\n\n");
         
         
-//        strcpy(pBuffer,MESSAGE);
-//        printf("\nSending \"%s\" to client\n\n",pBuffer);
+        //strcpy(pBuffer,MESSAGE);
+        //printf("\nSending \"%s\" to client\n\n",pBuffer);
         // memset(pBuffer,0,sizeof(pBuffer));
         // read(hSocket,pBuffer,BUFFER_SIZE);
         // printf("Got from browser \n%s\n\n",pBuffer);
         
-            memset(pBuffer,0,sizeof(pBuffer));
-            sprintf(pBuffer,
-                    "HTTP/1.1 200 OK\r\n\
-                    Content-Type: text/html\
-                    \r\n\r\n\
-                    <html>hello world</html>\n");
+            // memset(pBuffer,0,sizeof(pBuffer));
+            // sprintf(pBuffer,
+            //         "HTTP/1.1 200 OK\r\n\
+            //         Content-Type: text/html\
+            //         \r\n\r\n\
+            //         <html>hello world</html>\n");
         
-            write(hSocket,pBuffer,strlen(pBuffer));
+            // write(hSocket,pBuffer,strlen(pBuffer));
         
             linger lin;
             unsigned int y = sizeof(lin);
