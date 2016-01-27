@@ -165,10 +165,10 @@ string getFileName(char *message)
 
 
 
-void serve(int conn_sock)
+string serve(string res)
 {
     struct stat filestat;
-    std::string rs = "";
+    string resource = res;
     //std::string rs = path + requested resource
     //use rs inplace of argv[1]
     
@@ -207,6 +207,7 @@ void serve(int conn_sock)
                 //formate headers, read index.hmtl, send all to client
         //}
     }
+    return "";
 }
 int get_file_size(std::string path)
 {
@@ -230,15 +231,17 @@ int main(int argc, char* argv[])
     int nAddressSize=sizeof(struct sockaddr_in);
     char pBuffer[BUFFER_SIZE];
     int nHostPort;
+    string prefix;
 
-    if(argc < 2)
+    if(argc < 3)
       {
         printf("\nUsage: server host-port\n");
         return 0;
       }
     else
       {
-        nHostPort=atoi(argv[1]);
+          nHostPort=atoi(argv[1]);
+          prefix = argv[2]
       }
 
     printf("\nStarting server");
@@ -306,6 +309,8 @@ int main(int argc, char* argv[])
         printf("Status line %s\n",startline);
         string ending = getFileName(startline);
         printf("testing filename: %s\n\n", ending.c_str());
+        string fileName = prefix + ending;
+        string output = serve(fileName);
         
         vector<char *> headerLines;
         GetHeaderLines(headerLines,hSocket,false);
