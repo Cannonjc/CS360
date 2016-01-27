@@ -345,10 +345,6 @@ int main(int argc, char* argv[])
             lin.l_linger=10;
             setsockopt(hSocket,SOL_SOCKET,SO_LINGER,&lin,sizeof(lin));
             shutdown(hSocket,SHUT_RDWR);
-        } else {
-            memset(pBuffer,0,sizeof(pBuffer));
-            sprintf(pBuffer, "HTTP/1.1 200 OK\r\n\r\n");
-            write(hSocket,pBuffer,strlen(pBuffer));
         }
         
 //        if(strcmp(pBuffer,MESSAGE) == 0)
