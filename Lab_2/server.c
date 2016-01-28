@@ -166,9 +166,10 @@ string getFileName(char *message)
 string contentType(string extension)
 {
     if (extension == "html") {return "Content-Type: text/html";}
-    if (extension == "txt") {return "Content-Type: text/plain";}
-    if (extension == "jpg") {return "Content-Type: image/jpg";}
-    if (extension == "gif") {return "Content-Type: image/gif";}
+    else if (extension == "txt") {return "Content-Type: text/plain";}
+    else if (extension == "jpg") {return "Content-Type: image/jpg";}
+    else if (extension == "gif") {return "Content-Type: image/gif";}
+    else {return "Content-Type: text/plain";}
 }
 
 bool indexFile(string str)
@@ -216,7 +217,7 @@ void serve(int connectionSocket, char buffer[], string res)
                 "HTTP/1.1 200 OK\r\n\
                 %s\
                 \r\n\r\n\
-                <html>hello world</html>\n",content.c_str());
+                %s\n",content.c_str(),buff);
     
         write(connectionSocket,buffer,strlen(buffer));
         fclose(fp);
