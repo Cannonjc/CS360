@@ -207,9 +207,13 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
     if(S_ISREG(filestat.st_mode)) {
         cout << resource << " is a regular file \n";
         cout << "file size = "<<filestat.st_size <<"\n\n";
-        FILE *fp = fopen(resource.c_str(),"r");
-        char *buff = (char *)malloc(filestat.st_size);
         string content = contentType(resource.substr(resource.find_last_of(".")+1));
+        if (content == "image/jpg" || content == "image/gif") {
+            FILE *fp = fopen(resource.c_str(),"rb");
+        } else {
+            FILE *fp = fopen(resource.c_str(),"r");
+        }
+        char *buff = (char *)malloc(filestat.st_size);
         printf("Content-Type is: %s\n", content.c_str());
         fread(buff,filestat.st_size,1,fp);
         printf("Got\n%s\n", buff);
