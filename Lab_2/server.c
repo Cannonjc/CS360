@@ -215,12 +215,11 @@ void serve(int connectionSocket, char buffer[], string res)
                 "HTTP/1.1 200 OK\r\n\
                 %s\
                 \r\n\r\n\
-                <html>hello world</html>\n",contentType.c_str());
+                <html>hello world</html>\n",content.c_str());
     
         write(connectionSocket,buffer,strlen(buffer));
         free(buffer);
         fclose(fp);
-        printf("extension is : %s\n", extension.c_str());
         //format headers, read file, send it to client
     }
     if(S_ISDIR(filestat.st_mode)) {
