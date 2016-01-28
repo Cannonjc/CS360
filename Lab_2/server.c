@@ -163,6 +163,26 @@ string getFileName(char *message)
     return "";
 }
 
+string contentType(string extension)
+{
+    switch(extension) {
+        case "html":
+            return "Content-Type: text/html";
+            break;
+        case "txt":
+            return "Content-Type: text/plain";
+            break;
+        case "jpg":
+            return "Content-Type: image/jpf";
+            break;
+        case "gif":
+            return "Content-Type: image/gif":
+            break;
+        default:
+            return "";
+    }
+}
+
 bool indexFile(string str)
 {
     printf("testing directory for: %s\n", str.c_str());
@@ -200,16 +220,19 @@ void serve(int connectionSocket, char buffer[], string res)
         FILE *fp = fopen(resource.c_str(),"r");
         char *buff = (char *)malloc(filestat.st_size);
         string extension = res.substr(res.find_last_of(".")+1);
+        string contentType = contentType(extension);
         fread(buff,filestat.st_size,1,fp);
         printf("Got\n%s\n", buff);
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,
                 "HTTP/1.1 200 OK\r\n\
-                Content-Type: text/html\
+                %s\
                 \r\n\r\n\
-                <html>hello world</html>\n");
+                <html>hello world</html>\n",contentType);
     
         write(connectionSocket,buffer,strlen(buffer));
+        free(buffer);
+        fclose(fp);
         printf("extension is : %s\n", extension.c_str());
         //format headers, read file, send it to client
     }
