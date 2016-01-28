@@ -209,7 +209,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         cout << "file size = "<<filestat.st_size <<"\n\n";
         string content = contentType(resource.substr(resource.find_last_of(".")+1));
         char *buff;
-        if (content == "image/jpg" || content == "image/gif") {
+        if (content == "Content-Type: image/jpg" || content == "Content-Type: image/gif") {
             printf("-------image/jpg/gif---------");
             FILE *fp = fopen(resource.c_str(),"rb");
             buff = (char *)malloc(filestat.st_size);
