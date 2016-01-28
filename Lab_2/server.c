@@ -210,7 +210,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         string content = contentType(resource.substr(resource.find_last_of(".")+1));
         char *buff;
         if (content == "image/jpg" || content == "image/gif") {
-            cout << "-------image/jpg/gif---------" << endl;
+            printf("-------image/jpg/gif---------");
             FILE *fp = fopen(resource.c_str(),"rb");
             buff = (char *)malloc(filestat.st_size);
             fread(buff,filestat.st_size,1,fp);
