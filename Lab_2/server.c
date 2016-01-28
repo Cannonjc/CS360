@@ -249,8 +249,9 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         sprintf(buffer,
                 "HTTP/1.1 200 OK\r\n\
                 Content-Type: text/html\
+                Content-Length: %d\
                 \r\n\r\n\
-                %s\n",result.c_str());
+                %s\n",sizeof(result.c_str()),result.c_str());
     
         write(connectionSocket,buffer,strlen(buffer));
 
