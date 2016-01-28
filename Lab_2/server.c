@@ -240,6 +240,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
                 %s\n",content.c_str(), (int)sizeof(buff),buff);
     
         write(connectionSocket,buffer,strlen(buffer));
+        free(buff);
         fclose(fp);
         //format headers, read file, send it to client
     }
@@ -288,19 +289,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         //}
     }
 }
-int get_file_size(std::string path)
-{
-    struct stat filestat;
-    if(stat(path.c_str(), &filestat))
-    {
-        return -1;
-    }
-    return filestat.st_size;
-}
-string get_file_contents(const char* filename)
-{
-    
-}
+
 
 int main(int argc, char* argv[])
 {
