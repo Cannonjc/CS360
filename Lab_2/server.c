@@ -218,7 +218,6 @@ void serve(int connectionSocket, char buffer[], string res)
                 <html>hello world</html>\n",content.c_str());
     
         write(connectionSocket,buffer,strlen(buffer));
-        free(buffer);
         fclose(fp);
         //format headers, read file, send it to client
     }
