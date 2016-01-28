@@ -193,7 +193,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
 {
     struct stat filestat;
     string resource = prefix+ending;
-    printf("resource: %s\n", resource.c_str());
+    //printf("resource: %s\n", resource.c_str());
 
     
     if(stat(resource.c_str(), &filestat)) {
@@ -205,8 +205,8 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         //return 404 not found headers
     }
     if(S_ISREG(filestat.st_mode)) {
-        cout << resource << " is a regular file \n";
-        cout << "file size = "<<filestat.st_size <<"\n\n";
+        //cout << resource << " is a regular file \n";
+        //cout << "file size = "<<filestat.st_size <<"\n\n";
         string content = contentType(resource.substr(resource.find_last_of(".")+1));
         if (content == "Content-Type: image/jpg" || content == "Content-Type: image/gif") {
             printf("-------image/jpg/gif---------");
@@ -229,7 +229,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         FILE *fp = fopen(resource.c_str(),"r");
         char *buff = (char *)malloc(filestat.st_size);
         fread(buff,filestat.st_size,1,fp);
-        printf("Content-Type is: %s\n", content.c_str());
+        //printf("Content-Type is: %s\n", content.c_str());
         //printf("Got\n%s\n", buff);
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,
@@ -245,7 +245,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         //format headers, read file, send it to client
     }
     if(S_ISDIR(filestat.st_mode)) {
-        cout << resource << " is a directory \n\n";
+        //cout << resource << " is a directory \n\n";
         DIR *dirp;
         struct dirent *dp;
         string result = "<html>\n<h1>Directory for " + resource + "</h1>\n<ul>\n";
@@ -374,14 +374,14 @@ int main(int argc, char* argv[])
         
         
         char *startline = GetLine(hSocket);
-        printf("Status line %s\n",startline);
+        //printf("Status line %s\n",startline);
         string ending = getFileName(startline);
-        printf("testing filename: %s\n\n", ending.c_str());
+        //printf("testing filename: %s\n\n", ending.c_str());
         if(ending != "/favicon.ico") {
             serve(hSocket, pBuffer, prefix, ending);
         
-            vector<char *> headerLines;
-            GetHeaderLines(headerLines,hSocket,false);
+            // vector<char *> headerLines;
+            // GetHeaderLines(headerLines,hSocket,false);
             // for (int i = 0; i < headerLines.size(); i++) {
             //     printf("[%d] %s\n",i,headerLines[i]);
             // }
@@ -418,7 +418,7 @@ int main(int argc, char* argv[])
 //        else
 //            printf("\nSomething was changed in the message");
 //
-        printf("\nClosing the socket");
+        printf("\nClosing the socket\n");
         /* close socket */
         if(close(hSocket) == SOCKET_ERROR)
         {
