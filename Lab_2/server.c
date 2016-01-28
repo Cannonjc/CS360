@@ -218,7 +218,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
                 \r\n\r\n",content.c_str(),(int)filestat.st_size);
             write(connectionSocket,buffer,strlen(buffer));
 
-            FILE *fp = fopen(resource.c_str(),"rb");
+            FILE *fp = fopen(resource.c_str(),"r");
             char *buff = (char *)malloc(filestat.st_size+1);
             fread(buff,filestat.st_size,1,fp);
             write(connectionSocket,buff,filestat.st_size);
