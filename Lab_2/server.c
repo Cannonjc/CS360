@@ -19,6 +19,7 @@
 
 using namespace std;
 
+
 bool isWhitespace(char c)
 { switch (c)
     {
@@ -188,10 +189,10 @@ bool indexFile(string str)
 }
 
 //return the error, or html
-void serve(int connectionSocket, char buffer[], string res)
+void serve(int connectionSocket, char buffer[], string prefix, string ending)
 {
     struct stat filestat;
-    string resource = res;
+    string resource = prefix+ending;
     printf("resource: %s\n", resource.c_str());
 
     
@@ -208,7 +209,7 @@ void serve(int connectionSocket, char buffer[], string res)
         cout << "file size = "<<filestat.st_size <<"\n\n";
         FILE *fp = fopen(resource.c_str(),"r");
         char *buff = (char *)malloc(filestat.st_size);
-        string content = contentType(res.substr(res.find_last_of(".")+1));
+        string content = contentType(resource.substr(resource.find_last_of(".")+1));
         printf("Content-Type is: %s\n", content.c_str());
         fread(buff,filestat.st_size,1,fp);
         printf("Got\n%s\n", buff);
@@ -227,19 +228,21 @@ void serve(int connectionSocket, char buffer[], string res)
         cout << resource << " is a directory \n\n";
         DIR *dirp;
         struct dirent *dp;
-        string result = "<html>\n<h1>Directory for " + res + "</h1>\n<ul>\n";
+        string result = "<html>\n<h1>Directory for " + resource + "</h1>\n<ul>\n";
         
         dirp = opendir(resource.c_str());
         while ((dp = readdir(dirp)) != NULL) {
-            result += "<li> "; 
+            result += "<li><a href='/"; 
             result.append(dp->d_name);
-            result += "</li>\n";
+            result+="''>";
+            result.append(dp->d_name);
+            result += "</a></li>\n";
             //printf("name %s\n", dp->d_name);
         }
         result += "</ul>\n</html>";
         (void)closedir(dirp);
-        if (indexFile(res+"/index.html")) {
-            serve(connectionSocket,buffer,res+"/index.html");
+        if (indexFile(resource+"/index.html")) {
+            serve(connectionSocket,buffer,resource,"/index.html");
             return;
         }
         memset(buffer,0,sizeof(buffer));
@@ -366,8 +369,7 @@ int main(int argc, char* argv[])
         string ending = getFileName(startline);
         printf("testing filename: %s\n\n", ending.c_str());
         if(ending != "/favicon.ico") {
-            string fileName = prefix + ending;
-            serve(hSocket, pBuffer, fileName);
+            serve(hSocket, pBuffer, prefix, ending);
         
             vector<char *> headerLines;
             GetHeaderLines(headerLines,hSocket,false);
@@ -379,11 +381,11 @@ int main(int argc, char* argv[])
             // printf("=======================\n\n");
         
         
-        //strcpy(pBuffer,MESSAGE);
-        //printf("\nSending \"%s\" to client\n\n",pBuffer);
-        // memset(pBuffer,0,sizeof(pBuffer));
-        // read(hSocket,pBuffer,BUFFER_SIZE);
-        // printf("Got from browser \n%s\n\n",pBuffer);
+            //strcpy(pBuffer,MESSAGE);
+            //printf("\nSending \"%s\" to client\n\n",pBuffer);
+            // memset(pBuffer,0,sizeof(pBuffer));
+            // read(hSocket,pBuffer,BUFFER_SIZE);
+            // printf("Got from browser \n%s\n\n",pBuffer);
         
             // memset(pBuffer,0,sizeof(pBuffer));
             // sprintf(pBuffer,
