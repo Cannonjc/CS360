@@ -208,6 +208,7 @@ void serve(int connectionSocket, char buffer[], string res)
         FILE *fp = fopen(resource.c_str(),"r");
         char *buff = (char *)malloc(filestat.st_size);
         string content = contentType(res.substr(res.find_last_of(".")+1));
+        printf("Content-Type is: %s\n", content.c_str());
         fread(buff,filestat.st_size,1,fp);
         printf("Got\n%s\n", buff);
         memset(buffer,0,sizeof(buffer));
