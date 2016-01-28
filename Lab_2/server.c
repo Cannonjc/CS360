@@ -232,7 +232,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         
         dirp = opendir(resource.c_str());
         while ((dp = readdir(dirp)) != NULL) {
-            result += "<li><a href='/";
+            result += "<li><a href='"; result+= ending = "/";
             result.append(dp->d_name);
             result+="''>";
             result.append(dp->d_name);
