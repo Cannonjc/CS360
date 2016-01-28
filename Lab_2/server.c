@@ -251,7 +251,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
                 Content-Type: text/html\
                 Content-Length: %d\
                 \r\n\r\n\
-                %s\n",sizeof(result.c_str()),result.c_str());
+                %s\n",result.length(),result.c_str());
     
         write(connectionSocket,buffer,strlen(buffer));
 
