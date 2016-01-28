@@ -228,7 +228,7 @@ void serve(int connectionSocket, char buffer[], string res)
                 "HTTP/1.1 200 OK\r\n\
                 %s\
                 \r\n\r\n\
-                <html>hello world</html>\n",contentType);
+                <html>hello world</html>\n",contentType.c_str());
     
         write(connectionSocket,buffer,strlen(buffer));
         free(buffer);
