@@ -207,8 +207,7 @@ void serve(int connectionSocket, char buffer[], string res)
         cout << "file size = "<<filestat.st_size <<"\n\n";
         FILE *fp = fopen(resource.c_str(),"r");
         char *buff = (char *)malloc(filestat.st_size);
-        string extension = res.substr(res.find_last_of(".")+1);
-        string contentType = contentType(extension);
+        string content = contentType(res.substr(res.find_last_of(".")+1));
         fread(buff,filestat.st_size,1,fp);
         printf("Got\n%s\n", buff);
         memset(buffer,0,sizeof(buffer));
