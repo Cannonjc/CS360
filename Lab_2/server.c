@@ -223,12 +223,12 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         }
         
         printf("Content-Type is: %s\n", content.c_str());
-        printf("Got\n%s\n", buff);
+        //printf("Got\n%s\n", buff);
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,
                 "HTTP/1.1 200 OK\r\n\
-                %s\
-                Content-Length: %d\
+                %s\r\n\
+                Content-Length: %d \
                 \r\n\r\n\
                 %s\n",content.c_str(), (int)sizeof(buff),buff);
     
@@ -259,8 +259,8 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,
                 "HTTP/1.1 200 OK\r\n\
-                Content-Type: text/html\
-                Content-Length: %d\
+                Content-Type: text/html\r\n\
+                Content-Length: %d\r\n\
                 \r\n\r\n\
                 %s\n",(int)sizeof(result.c_str()),result.c_str());
     
