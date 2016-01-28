@@ -165,22 +165,10 @@ string getFileName(char *message)
 
 string contentType(string extension)
 {
-    switch(extension) {
-        case "html":
-            return "Content-Type: text/html";
-            break;
-        case "txt":
-            return "Content-Type: text/plain";
-            break;
-        case "jpg":
-            return "Content-Type: image/jpf";
-            break;
-        case "gif":
-            return "Content-Type: image/gif":
-            break;
-        default:
-            return "";
-    }
+    if (extension == "html") {return "Content-Type: text/html";}
+    if (extension == "txt") {return "Content-Type: text/plain";}
+    if (extension == "jpg") {return "Content-Type: image/jpg";}
+    if (extension == "gif") {return "Content-Type: image/gif";}
 }
 
 bool indexFile(string str)
