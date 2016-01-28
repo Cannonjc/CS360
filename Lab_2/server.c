@@ -208,15 +208,19 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         cout << resource << " is a regular file \n";
         cout << "file size = "<<filestat.st_size <<"\n\n";
         string content = contentType(resource.substr(resource.find_last_of(".")+1));
-        FILE *fp;
         if (content == "image/jpg" || content == "image/gif") {
-            *fp = fopen(resource.c_str(),"rb");
+            FILE *fp = fopen(resource.c_str(),"rb");
+            char *buff = (char *)malloc(filestat.st_size);
+            fread(buff,filestat.st_size,1,fp);
+            fclose(fp);
         } else {
-            *fp = fopen(resource.c_str(),"r");
+            FILE *fp = fopen(resource.c_str(),"r");
+            char *buff = (char *)malloc(filestat.st_size);
+            fread(buff,filestat.st_size,1,fp);
+            fclose(fp);
         }
-        char *buff = (char *)malloc(filestat.st_size);
+        
         printf("Content-Type is: %s\n", content.c_str());
-        fread(buff,filestat.st_size,1,fp);
         printf("Got\n%s\n", buff);
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,
@@ -227,7 +231,6 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
                 %s\n",content.c_str(), (int)sizeof(buff),buff);
     
         write(connectionSocket,buffer,strlen(buffer));
-        fclose(fp);
         //format headers, read file, send it to client
     }
     if(S_ISDIR(filestat.st_mode)) {
