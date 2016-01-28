@@ -215,7 +215,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
             sprintf(buffer, "HTTP/1.1 200 OK\r\n\
                 %s\r\n\
                 Content-Length: %d\
-                \r\n\r\n",content.c_str(),filestat.st_size);
+                \r\n\r\n",content.c_str(),(int)filestat.st_size);
             write(connectionSocket,buffer,strlen(buffer));
 
             FILE *fp = fopen(resource.c_str(),"rb");
