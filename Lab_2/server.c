@@ -208,14 +208,15 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         cout << resource << " is a regular file \n";
         cout << "file size = "<<filestat.st_size <<"\n\n";
         string content = contentType(resource.substr(resource.find_last_of(".")+1));
+        char *buff;
         if (content == "image/jpg" || content == "image/gif") {
             FILE *fp = fopen(resource.c_str(),"rb");
-            char *buff = (char *)malloc(filestat.st_size);
+            buff = (char *)malloc(filestat.st_size);
             fread(buff,filestat.st_size,1,fp);
             fclose(fp);
         } else {
             FILE *fp = fopen(resource.c_str(),"r");
-            char *buff = (char *)malloc(filestat.st_size);
+            buff = (char *)malloc(filestat.st_size);
             fread(buff,filestat.st_size,1,fp);
             fclose(fp);
         }
