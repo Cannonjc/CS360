@@ -217,8 +217,9 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         sprintf(buffer,
                 "HTTP/1.1 200 OK\r\n\
                 %s\
+                Content-Length: %d\
                 \r\n\r\n\
-                %s\n",content.c_str(),buff);
+                %s\n",content.c_str(), (int)sizeof(buff),buff);
     
         write(connectionSocket,buffer,strlen(buffer));
         fclose(fp);
