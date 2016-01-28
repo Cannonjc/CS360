@@ -208,23 +208,27 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         cout << resource << " is a regular file \n";
         cout << "file size = "<<filestat.st_size <<"\n\n";
         string content = contentType(resource.substr(resource.find_last_of(".")+1));
-        FILE *fp
-        char *buff;
         if (content == "Content-Type: image/jpg" || content == "Content-Type: image/gif") {
             printf("-------image/jpg/gif---------");
-            fp = fopen(resource.c_str(),"rb");
-            buff = (char *)malloc(filestat.st_size+1);
+
+            memset(buffer,0,sizeof(buffer));
+            sprintf(buffer, "HTTP/1.1 200 OK\r\n\
+                %s\r\n\
+                Content-Length: %d\
+                \r\n\r\n",content.c_str(),filestat.st_size);
+            write(connectionSocket,buffer,strlen(buffer));
+
+            FILE *fp = fopen(resource.c_str(),"rb");
+            char *buff = (char *)malloc(filestat.st_size+1);
             fread(buff,filestat.st_size,1,fp);
             write(connectionSocket,buff,filestat.st_size);
             free(buff);
             fclose(fp);
             return;
-        } else {
-            fp = fopen(resource.c_str(),"r");
-            buff = (char *)malloc(filestat.st_size);
-            fread(buff,filestat.st_size,1,fp);
-        }
-        
+        } 
+        FILE *fp = fopen(resource.c_str(),"r");
+        char *buff = (char *)malloc(filestat.st_size);
+        fread(buff,filestat.st_size,1,fp);
         printf("Content-Type is: %s\n", content.c_str());
         //printf("Got\n%s\n", buff);
         memset(buffer,0,sizeof(buffer));
