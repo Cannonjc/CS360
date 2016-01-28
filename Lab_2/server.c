@@ -379,8 +379,8 @@ int main(int argc, char* argv[])
         if(ending != "/favicon.ico") {
             serve(hSocket, pBuffer, prefix, ending);
         
-            // vector<char *> headerLines;
-            // GetHeaderLines(headerLines,hSocket,false);
+            vector<char *> headerLines;
+            GetHeaderLines(headerLines,hSocket,false);
             // for (int i = 0; i < headerLines.size(); i++) {
             //     printf("[%d] %s\n",i,headerLines[i]);
             // }
