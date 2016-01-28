@@ -240,7 +240,6 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
                 %s\n",content.c_str(), (int)sizeof(buff),buff);
     
         write(connectionSocket,buffer,strlen(buffer));
-        free(buff);
         fclose(fp);
         //format headers, read file, send it to client
     }
