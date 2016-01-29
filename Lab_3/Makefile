@@ -3,4 +3,4 @@
 all: thread
 
 thread:
-	g++ -o thread howdy.cpp
+	g++ -o thread howdy.cpp -pthread
