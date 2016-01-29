@@ -1,4 +1,4 @@
-sample1: sample.cpp
+sample: sample.cpp
 	g++ -o sample sample.cpp -lpthread
 sample1: sample1.cpp
 	g++ -o sample1 sample1.cpp -lpthread
