@@ -18,6 +18,11 @@ int main()
 	for (threadid = 0; threadid<NTHREADS; threadid++) {
 		pthread_create(&threads[threadid],NULL,howdy,(void *)threadid);
 	}
+	//set up socket, bind, listen, accept
+	// for(;;) {
+	// 	fd = accept;
+	// 	enqueue(fd);
+	// }
 	pthread_exit(NULL);
 	return 0;
 }
