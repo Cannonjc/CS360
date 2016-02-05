@@ -30,11 +30,6 @@ sem_t lock_on_q;
 
 
 
-
-
-
-
-
 // Determine if the character is whitespace
 bool isWhitespace(char c)
 {
@@ -326,6 +321,8 @@ void *startThreads(void *threadid)
 
       //get from queue
       printf("Thread #%ld!\n", tid);
+      socket = clients.front();
+      clients.pop();
 
       sem_post(&lock_on_q);
       sem_post(&space_on_q);
