@@ -27,7 +27,7 @@ queue<int> clients;
 sem_t waiting_connections;
 sem_t space_on_q;
 sem_t lock_on_q;
-string prefix;
+string prefix = "";
 
 
 
@@ -377,7 +377,7 @@ int main (int argc, char *argv[])
     else {
       nHostPort=atoi(argv[1]);
       threadsCount=atoi(argv[2]);
-      prefix = argv[3];
+      prefix += argv[3];
    }
 
     printf("\nStarting server\n");
