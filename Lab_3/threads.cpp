@@ -313,7 +313,6 @@ void *startThreads(void *threadid)
    tid = (long)threadid;
    int socket;
    char pBuffer[BUFFER_SIZE];
-   string prefix;
    
 
    for (;;) {
@@ -355,7 +354,7 @@ void *startThreads(void *threadid)
    pthread_exit(NULL);
 }
 
-
+//-----------------------------------------------------------------------------------------------------------------
 
 int main (int argc, char *argv[])
 {
@@ -385,7 +384,14 @@ int main (int argc, char *argv[])
 
     //put the code from sigint right here to handle the constant refresh(sig pipe is really only on we need)
 
-   //-----------------------------------------------------------------------------------------------------------------
+    struct sigaction sigold, signew;
+    
+    signew.sa_handler=handler;
+    sigemptyset(&signew.sa_mask);
+    sigaddset(&signew.sa_mask,SIGINT);
+    signew.sa_flags = SA_RESTART;
+    sigaction(SIGPIPE, &signew, &sigold)
+
 
     printf("\nMaking socket");
     /* make a socket */
