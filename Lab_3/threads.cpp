@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <queue>
-#include <semeaphore.h>
+#include <semaphore.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
