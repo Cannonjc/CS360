@@ -27,7 +27,9 @@ int main()
     sigaddset(&signew.sa_mask,SIGINT);
     signew.sa_flags = SA_RESTART;
     sigaction(SIGINT,&signew,&sigold);
-    
+    sigaction(SIGHUP, &signew, &sigold);
+    sigaction(SIGPIPE, &signew, &sigold)
+;    
     for(;;);
     
     exit(0);
