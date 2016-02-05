@@ -27,6 +27,7 @@ queue<int> clients;
 sem_t waiting_connections;
 sem_t space_on_q;
 sem_t lock_on_q;
+string prefix;
 
 
 
@@ -354,7 +355,7 @@ void *startThreads(void *threadid)
    pthread_exit(NULL);
 }
 
-string prefix;
+
 
 int main (int argc, char *argv[])
 {
