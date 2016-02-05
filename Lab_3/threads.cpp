@@ -31,6 +31,10 @@ sem_t lock_on_q;
 string prefix = "";
 
 
+void handler (int status)
+{
+    printf("received signal %d\n",status);
+}
 
 // Determine if the character is whitespace
 bool isWhitespace(char c)
@@ -391,7 +395,7 @@ int main (int argc, char *argv[])
     sigemptyset(&signew.sa_mask);
     sigaddset(&signew.sa_mask,SIGINT);
     signew.sa_flags = SA_RESTART;
-    sigaction(SIGPIPE, &signew, &sigold)
+    sigaction(SIGPIPE, &signew, &sigold);
 
 
     printf("\nMaking socket");
@@ -488,7 +492,6 @@ int main (int argc, char *argv[])
    /* Last thing that main() should do */
    pthread_exit(NULL);
 }
-
 
 
 
