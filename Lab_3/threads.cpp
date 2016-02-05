@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <vector>
+#include <sys/signal.h>
 
 
 #define SOCKET_ERROR        -1
