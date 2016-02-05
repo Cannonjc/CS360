@@ -29,6 +29,130 @@ sem_t space_on_q;
 sem_t lock_on_q;
 string prefix;
 
+int main (int argc, char *argv[])
+{
+
+
+   int hSocket,hServerSocket;  /* handle to socket */
+   struct hostent* pHostInfo;   /* holds info about a machine */
+   struct sockaddr_in Address; /* Internet socket address stuct */
+   int nAddressSize=sizeof(struct sockaddr_in);
+   char pBuffer[BUFFER_SIZE];
+   int nHostPort;
+   
+   int threadsCount;
+
+   if(argc < 4) {
+      printf("\nUsage: server host-port\n");
+      return 0;
+   }
+    else {
+      nHostPort=atoi(argv[1]);
+      threadsCount=atoi(argv[2]);
+      prefix = argv[3];
+   }
+
+    printf("\nStarting server\n");
+    printf("Prefix is: %s\n", prefix.c_str());
+
+    //put the code from sigint right here to handle the constant refresh(sig pipe is really only on we need)
+
+   //-----------------------------------------------------------------------------------------------------------------
+
+    printf("\nMaking socket");
+    /* make a socket */
+    hServerSocket=socket(AF_INET,SOCK_STREAM,0);
+
+    if(hServerSocket == SOCKET_ERROR) {
+      printf("\nCould not make a socket\n");
+      return 0;
+    }
+
+    /* fill address struct */
+    Address.sin_addr.s_addr=INADDR_ANY;
+    Address.sin_port=htons(nHostPort);
+    Address.sin_family=AF_INET;
+
+    printf("\nBinding to port %d",nHostPort);
+
+    /* bind to a port */
+    if(bind(hServerSocket,(struct sockaddr*)&Address,sizeof(Address)) 
+                        == SOCKET_ERROR)
+    {
+      printf("\nCould not connect to host\n");
+      return 0;
+    }
+   /*  get port number */
+    getsockname( hServerSocket, (struct sockaddr *) &Address,(socklen_t *)&nAddressSize);
+    printf("opened socket as fd (%d) on port (%d) for stream i/o\n",hServerSocket, ntohs(Address.sin_port) );
+
+   printf("Server\n\
+         sin_family        = %d\n\
+         sin_addr.s_addr   = %d\n\
+         sin_port          = %d\n"
+         , Address.sin_family
+         , Address.sin_addr.s_addr
+         , ntohs(Address.sin_port)
+      );
+
+
+    printf("\nMaking a listen queue of %d elements",QUEUE_SIZE);
+    /* establish listen queue */
+    if(listen(hServerSocket,QUEUE_SIZE) == SOCKET_ERROR)
+    {
+      printf("\nCould not listen\n");
+      return 0;
+    }
+
+
+   //-----------------------------------------------------------------------------------------------------------------
+   //create socket
+   //bind
+   //listen
+
+
+   //put the code from sigint right here to handle the constant refresh(sig pipe is really only on we need)
+    //sigint here or in the infinite loop??
+
+   pthread_t threads[threadsCount];
+   int rc;
+   long t;
+
+   int queue_size = 20;
+   sem_init(&waiting_connections, 0, 0);
+   sem_init(&space_on_q, 0, queue_size);
+   sem_init(&lock_on_q, 0, 1);
+   
+   for(t=0; t<threadsCount; t++){
+      printf("In main: creating thread %ld\n", t);
+      rc = pthread_create(&threads[t], NULL, startThreads, (void *)t);
+      if (rc){
+         printf("ERROR; return code from pthread_create() is %d\n", rc);
+         exit(-1);
+      }
+   }
+
+
+
+   for (;;) {
+
+      printf("\nWaiting for a connection\n");
+      /* accepting the socket */
+      hSocket=accept(hServerSocket,(struct sockaddr*)&Address,(socklen_t *)&nAddressSize);
+
+      sem_wait(&space_on_q);
+      sem_wait(&lock_on_q);
+
+      //add to queue
+      clients.push(hSocket);
+
+      sem_post(&lock_on_q);
+      sem_post(&waiting_connections);
+   }
+
+   /* Last thing that main() should do */
+   pthread_exit(NULL);
+}
 
 
 // Determine if the character is whitespace
@@ -352,133 +476,6 @@ void *startThreads(void *threadid)
       }
    }
    
-   pthread_exit(NULL);
-}
-
-
-
-int main (int argc, char *argv[])
-{
-
-
-   int hSocket,hServerSocket;  /* handle to socket */
-   struct hostent* pHostInfo;   /* holds info about a machine */
-   struct sockaddr_in Address; /* Internet socket address stuct */
-   int nAddressSize=sizeof(struct sockaddr_in);
-   char pBuffer[BUFFER_SIZE];
-   int nHostPort;
-   
-   int threadsCount;
-
-   if(argc < 4) {
-      printf("\nUsage: server host-port\n");
-      return 0;
-   }
-    else {
-      nHostPort=atoi(argv[1]);
-      threadsCount=atoi(argv[2]);
-      prefix = argv[3];
-   }
-
-    printf("\nStarting server");
-    printf("Prefix is: %s\n", prefix.c_str());
-
-    //put the code from sigint right here to handle the constant refresh(sig pipe is really only on we need)
-
-   //-----------------------------------------------------------------------------------------------------------------
-
-    printf("\nMaking socket");
-    /* make a socket */
-    hServerSocket=socket(AF_INET,SOCK_STREAM,0);
-
-    if(hServerSocket == SOCKET_ERROR) {
-      printf("\nCould not make a socket\n");
-      return 0;
-    }
-
-    /* fill address struct */
-    Address.sin_addr.s_addr=INADDR_ANY;
-    Address.sin_port=htons(nHostPort);
-    Address.sin_family=AF_INET;
-
-    printf("\nBinding to port %d",nHostPort);
-
-    /* bind to a port */
-    if(bind(hServerSocket,(struct sockaddr*)&Address,sizeof(Address)) 
-                        == SOCKET_ERROR)
-    {
-      printf("\nCould not connect to host\n");
-      return 0;
-    }
-   /*  get port number */
-    getsockname( hServerSocket, (struct sockaddr *) &Address,(socklen_t *)&nAddressSize);
-    printf("opened socket as fd (%d) on port (%d) for stream i/o\n",hServerSocket, ntohs(Address.sin_port) );
-
-   printf("Server\n\
-         sin_family        = %d\n\
-         sin_addr.s_addr   = %d\n\
-         sin_port          = %d\n"
-         , Address.sin_family
-         , Address.sin_addr.s_addr
-         , ntohs(Address.sin_port)
-      );
-
-
-    printf("\nMaking a listen queue of %d elements",QUEUE_SIZE);
-    /* establish listen queue */
-    if(listen(hServerSocket,QUEUE_SIZE) == SOCKET_ERROR)
-    {
-      printf("\nCould not listen\n");
-      return 0;
-    }
-
-
-   //-----------------------------------------------------------------------------------------------------------------
-   //create socket
-   //bind
-   //listen
-
-
-   //put the code from sigint right here to handle the constant refresh(sig pipe is really only on we need)
-    //sigint here or in the infinite loop??
-
-   pthread_t threads[threadsCount];
-   int rc;
-   long t;
-
-   int queue_size = 20;
-   sem_init(&waiting_connections, 0, 0);
-   sem_init(&space_on_q, 0, queue_size);
-   sem_init(&lock_on_q, 0, 1);
-   
-   for(t=0; t<threadsCount; t++){
-      printf("In main: creating thread %ld\n", t);
-      rc = pthread_create(&threads[t], NULL, startThreads, (void *)t);
-      if (rc){
-         printf("ERROR; return code from pthread_create() is %d\n", rc);
-         exit(-1);
-      }
-   }
-
-
-
-   for (;;) {
-
-      printf("\nWaiting for a connection\n");
-      /* accepting the socket */
-      hSocket=accept(hServerSocket,(struct sockaddr*)&Address,(socklen_t *)&nAddressSize);
-
-      sem_wait(&space_on_q);
-      sem_wait(&lock_on_q);
-
-      //add to queue
-      clients.push(hSocket);
-
-      sem_post(&lock_on_q);
-      sem_post(&waiting_connections);
-   }
-
-   /* Last thing that main() should do */
    pthread_exit(NULL);
 }
 
