@@ -321,6 +321,7 @@ void *startThreads(void *threadid)
 
       //get from queue
       printf("Thread #%ld!\n", tid);
+      printf("Prefix still is: %s\n", prefix.c_str());
       socket = clients.front();
       clients.pop();
 
