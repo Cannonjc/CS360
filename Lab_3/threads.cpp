@@ -21,6 +21,8 @@
 #define MAX_MSG_SZ      1024
 #define QUEUE_SIZE          5
 
+using namespace std;
+
 queue<int> clients;
 sem_t waiting_connections;
 sem_t space_on_q;
@@ -28,7 +30,7 @@ sem_t lock_on_q;
 
 
 
-using namespace std;
+
 
 
 
@@ -314,6 +316,8 @@ void *startThreads(void *threadid)
    long tid;
    tid = (long)threadid;
    int socket;
+   char pBuffer[BUFFER_SIZE];
+   string prefix;
    
 
    for (;;) {
@@ -352,30 +356,10 @@ void *startThreads(void *threadid)
    pthread_exit(NULL);
 }
 
+string prefix;
+
 int main (int argc, char *argv[])
 {
-
-   //put the code from sigint right here to handle the constant refresh(sig pipe is really only on we need)
-
-   pthread_t threads[NUM_THREADS];
-   int rc;
-   long t;
-
-   int queue_size = 20;
-   sem_init(&waiting_connections, 0, 0);
-   sem_init(&space_on_q, 0, queue_size);
-   sem_init(&lock_on_q, 0, 1);
-   
-   for(t=0; t<NUM_THREADS; t++){
-      printf("In main: creating thread %ld\n", t);
-      rc = pthread_create(&threads[t], NULL, startThreads, (void *)t);
-      if (rc){
-         printf("ERROR; return code from pthread_create() is %d\n", rc);
-         exit(-1);
-      }
-   }
-
-   //-----------------------------------------------------------------------------------------------------------------
 
 
    int hSocket,hServerSocket;  /* handle to socket */
@@ -384,7 +368,7 @@ int main (int argc, char *argv[])
    int nAddressSize=sizeof(struct sockaddr_in);
    char pBuffer[BUFFER_SIZE];
    int nHostPort;
-   string prefix;
+   
    int threadsCount;
 
    if(argc < 4) {
@@ -398,6 +382,10 @@ int main (int argc, char *argv[])
    }
 
     printf("\nStarting server");
+
+    //put the code from sigint right here to handle the constant refresh(sig pipe is really only on we need)
+
+   //-----------------------------------------------------------------------------------------------------------------
 
     printf("\nMaking socket");
     /* make a socket */
