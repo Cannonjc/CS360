@@ -227,7 +227,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
 {
     struct stat filestat;
     string resource = prefix+ending;
-    printf("resource: %s\n", resource.c_str());
+    printf("resource: %s\n\n", resource.c_str());
 
     
     if(stat(resource.c_str(), &filestat)) {
@@ -326,7 +326,7 @@ void *startThreads(void *threadid)
 
       //get from queue
       printf("Thread #%ld!\n", tid);
-      printf("Prefix still is: %s\n", prefix.c_str());
+      //printf("Prefix still is: %s\n", prefix.c_str());
       socket = clients.front();
       clients.pop();
 
