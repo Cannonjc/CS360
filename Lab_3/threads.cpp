@@ -379,7 +379,7 @@ int main (int argc, char *argv[])
    }
 
     printf("\nStarting server");
-    printf("Prefix is: %s\n", prefix);
+    printf("Prefix is: %s\n", prefix.c_str());
 
     //put the code from sigint right here to handle the constant refresh(sig pipe is really only on we need)
 
