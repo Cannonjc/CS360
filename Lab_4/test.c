@@ -1,5 +1,6 @@
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <string.h>
@@ -7,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/epoll.h>
+#include <iostream>
 
 #define SOCKET_ERROR        -1
 #define BUFFER_SIZE         10000
@@ -15,6 +17,8 @@
 
 int  main(int argc, char* argv[])
 {
+
+	struct timeval oldtime[NSOCKETS+10];
     int hSocket[NSOCKETS];                 /* handle to socket */
     struct hostent* pHostInfo;   /* holds info about a machine */
     struct sockaddr_in Address;  /* Internet socket address stuct */
@@ -69,13 +73,14 @@ int  main(int argc, char* argv[])
 		}
 		char request[] = "GET /test.html HTTP/1.0\r\n\r\n";
 
-	    	write(hSocket[i],request,strlen(request));
+	    write(hSocket[i],request,strlen(request));
 		struct epoll_event event;
 		event.data.fd = hSocket[i];
 		event.events = EPOLLIN;
 		int ret = epoll_ctl(epollFD,EPOLL_CTL_ADD,hSocket[i],&event);
-		if(ret)
-			perror ("epoll_ctl");
+		if(ret) {perror ("epoll_ctl");}
+		gettimeofday(&oldtime[event.data.fd],NULL);
+			
 	}
 	for(int i = 0; i < NSOCKETS; i++) {
 		struct epoll_event event;
@@ -84,6 +89,12 @@ int  main(int argc, char* argv[])
 			perror("epoll_wait");
 		read(event.data.fd,pBuffer,BUFFER_SIZE);
 		printf("got from %d\n",event.data.fd);
+
+		struct timeval newtime;
+		gettimeofday(&newtime, NULL);
+		double usec = (newtime.tv_sec - oldtime[event.data.fd].tv_sec)*(double)1000000+(newtime.tv_usec-oldtime[event.data.fd].tv_usec);
+
+		std::cout << "Time: " << usec/1000000 << std::endl;
 
 		printf("\nClosing socket\n");
 		/* close socket */                       
