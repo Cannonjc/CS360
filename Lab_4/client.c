@@ -254,7 +254,7 @@ int  main(int argc, char* argv[])
          struct epoll_event event;
          event.data.fd = hSocket[i];
          event.events = EPOLLIN;
-         int ret = epoll_ctl(epollfd, EPOLL_ETC_ADD, hSocket[i],&event);
+         int ret = epoll_ctl(epollfd, EPOLL_CTL_ADD, hSocket[i],&event);
 
     
         char *message = (char *) malloc(MAXGET);
