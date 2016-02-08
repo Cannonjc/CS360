@@ -1,5 +1,6 @@
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/epoll.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <string.h>
@@ -287,16 +288,16 @@ int  main(int argc, char* argv[])
         // Read the header lines
         GetHeaderLines(headerLines, hSocket[i], false);
         
-        for (int i = 0; i < headerLines.size(); i++) {
-            if (strstr(headerLines[i], "Content-Length")) {
-                sscanf(headerLines[i], "Content-Length: %s", contentLength);
+        for (int j = 0; j < headerLines.size(); j++) {
+            if (strstr(headerLines[j], "Content-Length")) {
+                sscanf(headerLines[j], "Content-Length: %s", contentLength);
             }
         }
         // Now print them out
         if (debug)
         {
-            for (int i = 0; i < headerLines.size(); i++) {
-                printf("[%d] %s\n",i,headerLines[i]);
+            for (int j = 0; j < headerLines.size(); j++) {
+                printf("[%d] %s\n",i,headerLines[j]);
                 //            if(strstr(headerLines[i], "Content-Type")) {
                 //                sscanf(headerLines[i], "Content-Type: %s", contentType);
                 //            }
