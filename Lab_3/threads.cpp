@@ -286,7 +286,7 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         dirp = opendir(resource.c_str());
         string temp;
         if (ending == "") {
-          temp += "/";
+          temp += "";
         } else {
           temp += ending + "/";
         }
