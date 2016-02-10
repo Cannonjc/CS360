@@ -223,7 +223,7 @@ bool indexFile(string str)
 }
 
 //return the error, or html
-void serve(int connectionSocket, char buffer[], string prefix, string ending)
+void serve(int connectionSocket, char buffer[], string ending)
 {
     struct stat filestat;
     string resource = prefix+ending;
@@ -347,7 +347,7 @@ void *startThreads(void *threadid)
       printf("testing filename: %s\n\n", ending.c_str());
       if(ending != "/favicon.ico") {
 
-         serve(socket, pBuffer, prefix, ending);
+         serve(socket, pBuffer, ending);
 
          vector<char *> headerLines;
          GetHeaderLines(headerLines,socket,false);
