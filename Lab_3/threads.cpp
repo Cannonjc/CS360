@@ -301,7 +301,8 @@ void serve(int connectionSocket, char buffer[], string ending)
         result += "</ul>\n</html>";
         (void)closedir(dirp);
         if (indexFile(resource+"/index.html")) {
-            serve(connectionSocket,buffer,resource,"/index.html");
+            string newEnding = ending + "/index.html";
+            serve(connectionSocket,buffer,newEnding);
             return;
         }
         memset(buffer,0,sizeof(buffer));
