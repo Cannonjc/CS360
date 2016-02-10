@@ -284,8 +284,14 @@ void serve(int connectionSocket, char buffer[], string prefix, string ending)
         string result = "<html>\n<h1>Directory for " + resource + "</h1>\n<ul>\n";
         
         dirp = opendir(resource.c_str());
+        string temp;
+        if (ending == "") {
+          temp += "/";
+        } else {
+          temp += ending + "/";
+        }
         while ((dp = readdir(dirp)) != NULL) {
-            result += "<li><a href='"; result+= ending + "/";
+            result += "<li><a href='"; result+= temp;
             result.append(dp->d_name);
             result+="''>";
             result.append(dp->d_name);
