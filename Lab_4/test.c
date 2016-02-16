@@ -134,11 +134,6 @@ int  main(int argc, char* argv[])
 
 	int epollFD = epoll_create(1);
 	// Send the requests and set up the epoll data
-
-	std::string tempRequest = "GET " + page + " HTTP/1.0\r\n\r\n";
-	char request[tempRequest.size()];
-	strcpy(request,tempRequest.c_str());
-
 	for(int i = 0; i < NSOCKETS; i++) {
 		/* connect to host */
 		if(connect(hSocket[i],(struct sockaddr*)&Address,sizeof(Address)) 
@@ -147,7 +142,9 @@ int  main(int argc, char* argv[])
 			printf("\nCould not connect to host\n");
 			return 0;
 		}
-		
+		std::string tempRequest = "GET " + page + " HTTP/1.0\r\n\r\n";
+		char request[tempRequest.size()];
+		strcpy(request,tempRequest.c_str());
 
 	    write(hSocket[i],request,strlen(request));
 		struct epoll_event event;
