@@ -36,7 +36,7 @@ double getAverage(std::map<int,double> myMap)
 {
 	double average = 0;
 	int counter = 0;
-	std::map<char,int>::iterator it = myMap.begin();
+	std::map<int,double>::iterator it = myMap.begin();
 	for (it = myMap.begin(); it != myMap.end(); ++it) {
 		counter++;
 		average += it->second;
@@ -46,7 +46,7 @@ double getAverage(std::map<int,double> myMap)
 double getStandardDeviation(std::map<int,double> myMap, double averageTime)
 {
 	std::vector<double> squaredResults;
-	std::map<char,int>::iterator it = myMap.begin();
+	std::map<int,double>::iterator it = myMap.begin();
 	for (it = myMap.begin(); it != myMap.end(); ++it) {
 		double temp = it->second - averageTime;
 		temp *= temp;
@@ -184,7 +184,7 @@ int  main(int argc, char* argv[])
 	double averageTime = getAverage(socketTime);
 	double standardDeviation = getStandardDeviation(socketTime,averageTime);
 	if (debug) {
-		std::map<char,int>::iterator it = socketTime.begin();
+		std::map<int,double>::iterator it = socketTime.begin();
 		for (it=socketTime.begin(); it!=socketTime.end(); ++it) {
 			printf("\nSocket %d returned in %f seconds",it->first,it->second);
 		}
