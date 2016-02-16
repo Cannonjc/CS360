@@ -9,14 +9,56 @@
 #include <stdlib.h>
 #include <sys/epoll.h>
 #include <iostream>
+#include <vector>
+#include <sstream>
+#include <ctype.h>
+
 
 #define SOCKET_ERROR        -1
 #define BUFFER_SIZE         10000
 #define HOST_NAME_SIZE      255
-#define NSOCKETS 10
+
+
+bool determinePort(char* port)
+{
+    for (int i = 0; i < strlen(port); i++)
+    {
+        if (!isdigit(port[i]))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 
 int  main(int argc, char* argv[])
 {
+	int NSOCKETS = 1;
+	bool debug = false;
+	int c, err = 0;
+
+	while((c = getopt(argc,argv,"d")) != -1) {
+		switch (c) {
+			case 'd':
+				debug = true;
+				break;
+			case '?':
+				err = 1;
+				break;
+			default:
+				break;
+		}
+	}
+
+	
+	char* socketsNum = argv[optind+3];
+	if (determinePort(socketsNum)) {
+    	NSOCKETS = atoi(argv[optind+3]);
+    } else {
+    	printf("\nBad Sockets Number\n");
+    }
+
 
 	struct timeval oldtime[NSOCKETS+10];
     int hSocket[NSOCKETS];                 /* handle to socket */
@@ -28,16 +70,17 @@ int  main(int argc, char* argv[])
     char strHostName[HOST_NAME_SIZE];
     int nHostPort;
 
-    if(argc < 3)
-      {
-        printf("\nUsage: client host-name host-port\n");
-        return 0;
-      }
-    else
-      {
-        strcpy(strHostName,argv[1]);
-        nHostPort=atoi(argv[2]);
-      }
+    strcpy(strHostName,argv[optind]);
+    char* port = argv[optind+1];
+    if (determinePort(port)) {
+    	nHostPort = atoi(argv[optind+1]);
+    } else {
+    	printf("\nBad Port Number\n");
+    }
+    std::string page = argv[optind+2];
+
+    printf("\n\nInput:\nHostname:%s\nPort:%d\nPath:%s\nSockets%d",strHostName,nHostPort,page.c_str(),NSOCKETS);
+
 
     printf("\nMaking a socket");
     /* make a socket */
@@ -71,7 +114,9 @@ int  main(int argc, char* argv[])
 			printf("\nCould not connect to host\n");
 			return 0;
 		}
-		char request[] = "GET /test.html HTTP/1.0\r\n\r\n";
+		std::string tempRequest = "GET " + page + " HTTP/1.0\r\n\r\n";
+		char request[];
+		strcpy(request,tempRequest.c_str());
 
 	    write(hSocket[i],request,strlen(request));
 		struct epoll_event event;
@@ -92,7 +137,8 @@ int  main(int argc, char* argv[])
 
 		struct timeval newtime;
 		gettimeofday(&newtime, NULL);
-		double usec = (newtime.tv_sec - oldtime[event.data.fd].tv_sec)*(double)1000000+(newtime.tv_usec-oldtime[event.data.fd].tv_usec);
+		double usec = (newtime.tv_sec - 
+			oldtime[event.data.fd].tv_sec)*(double)1000000+(newtime.tv_usec-oldtime[event.data.fd].tv_usec);
 
 		std::cout << "Time: " << usec/1000000 << std::endl;
 
