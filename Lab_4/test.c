@@ -12,6 +12,8 @@
 #include <vector>
 #include <sstream>
 #include <ctype.h>
+#include <map>
+#include <math.h>
 
 
 #define SOCKET_ERROR        -1
@@ -30,7 +32,33 @@ bool determinePort(char* port)
     }
     return true;
 }
-
+double getAverage(std::map<int,double> myMap)
+{
+	double average = 0;
+	int counter = 0;
+	std::map<char,int>::iterator it = myMap.begin();
+	for (it = myMap.begin(); it != myMap.end(); ++it) {
+		counter++;
+		average += it->second;
+	}
+	return average/counter;
+}
+double getStandardDeviation(std::map<int,double> myMap, double averageTime)
+{
+	std::vector<double> squaredResults;
+	std::map<char,int>::iterator it = myMap.begin();
+	for (it = myMap.begin(); it != myMap.end(); ++it) {
+		double temp = it->second - averageTime;
+		temp *= temp;
+		squaredResults.push_back(temp);
+	}
+	double averageSquared;
+	for (int i = 0; i < squaredResults.size(); i++) {
+		averageSquared += squaredResults[i];
+	}
+	double average = averageSquared/squaredResults.size();
+	return sqrt(average);
+}
 
 int  main(int argc, char* argv[])
 {
@@ -79,7 +107,7 @@ int  main(int argc, char* argv[])
     }
     std::string page = argv[optind+2];
 
-    printf("\n\nInput:\nHostname:%s\nPort:%d\nPath:%s\nSockets%d",strHostName,nHostPort,page.c_str(),NSOCKETS);
+    printf("\n\nInput:\nHostname: %s\nPort: %d\nPath: %s\nSockets: %d",strHostName,nHostPort,page.c_str(),NSOCKETS);
 
 
     printf("\nMaking a socket");
@@ -127,22 +155,25 @@ int  main(int argc, char* argv[])
 		gettimeofday(&oldtime[event.data.fd],NULL);
 			
 	}
+
+	std::map<int,double> socketTime;
+
 	for(int i = 0; i < NSOCKETS; i++) {
 		struct epoll_event event;
 		int rval = epoll_wait(epollFD,&event,1,-1);
 		if(rval < 0)
 			perror("epoll_wait");
 		read(event.data.fd,pBuffer,BUFFER_SIZE);
-		printf("got from %d\n",event.data.fd);
+		//printf("got from %d\n",event.data.fd);
 
 		struct timeval newtime;
 		gettimeofday(&newtime, NULL);
 		double usec = (newtime.tv_sec - 
 			oldtime[event.data.fd].tv_sec)*(double)1000000+(newtime.tv_usec-oldtime[event.data.fd].tv_usec);
+		socketTime.insert(std::pair<int,double>((int)event.data.fd,usec/1000000));
+		//std::cout << "Time: " << usec/1000000 << std::endl;
 
-		std::cout << "Time: " << usec/1000000 << std::endl;
-
-		printf("\nClosing socket\n");
+		//printf("\nClosing socket\n");
 		/* close socket */                       
 		if(close(hSocket[i]) == SOCKET_ERROR)
 		{
@@ -150,4 +181,38 @@ int  main(int argc, char* argv[])
 			return 0;
 		}
 	}
+	double averageTime = getAverage(socketTime);
+	double standardDeviation = getStandardDeviation(socketTime,averageTime);
+	if (debug) {
+		std::map<char,int>::iterator it = socketTime.begin();
+		for (it=socketTime.begin(); it!=socketTime.end(); ++it) {
+			printf("\nSocket %d returned in %f seconds",it->first,it->second);
+		}
+	}
+	printf("\n\nAverage time per response: %f\n", averageTime);
+	printf("Standard deviation: %f\n",standardDeviation);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
