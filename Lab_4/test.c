@@ -115,7 +115,7 @@ int  main(int argc, char* argv[])
 			return 0;
 		}
 		std::string tempRequest = "GET " + page + " HTTP/1.0\r\n\r\n";
-		char request[];
+		char request[tempRequest.sizeof()];
 		strcpy(request,tempRequest.c_str());
 
 	    write(hSocket[i],request,strlen(request));
