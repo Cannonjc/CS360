@@ -107,10 +107,10 @@ int  main(int argc, char* argv[])
     }
     std::string page = argv[optind+2];
 
-    printf("\n\nInput:\nHostname: %s\nPort: %d\nPath: %s\nSockets: %d",strHostName,nHostPort,page.c_str(),NSOCKETS);
+    printf("\n\n---Input---\nHostname: %s\nPort: %d\nPath: %s\nSockets: %d",strHostName,nHostPort,page.c_str(),NSOCKETS);
 
 
-    printf("\nMaking a socket");
+    printf("\nMaking a socket\n");
     /* make a socket */
 	for(int i = 0; i < NSOCKETS; i++) {
 	    hSocket[i]=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
@@ -190,7 +190,7 @@ int  main(int argc, char* argv[])
 		}
 	}
 	printf("\n\nAverage time per response: %f\n", averageTime);
-	printf("Standard deviation: %f\n",standardDeviation);
+	printf("Standard deviation: %f\n\n",standardDeviation);
 }
 
 
