@@ -1,43 +1,113 @@
 <html>
-<head>
-<title>City Finder</title>
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>City Finder</title>
+    <link href="https://developers.google.com/maps/documentation/javascript/examples/default.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script>
+      var geocoder;
+      var map;
+      var mapOptions = {
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+      var marker;
+      function initialize() {
+        geocoder = new google.maps.Geocoder();
+        map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+        codeAddress();
+      }
+      function codeAddress() {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({
+          'address': address
+        }, function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            if (marker)
+              marker.setMap(null);
+            marker = new google.maps.Marker({map: map, position: results[0].geometry.location, draggable: true});
+            google.maps.event.addListener(marker, "dragend", function () {
+              document.getElementById('lat').value = marker.getPosition().lat();
+              document.getElementById('lng').value = marker.getPosition().lng();
+            });
+            document.getElementById('lat').value = marker.getPosition().lat();
+            document.getElementById('lng').value = marker.getPosition().lng();
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+      $(document).ready(function () {
+        $("#cityfield").keyup(function () {
+          var url = "https://students.cs.byu.edu/~clement/CS360/ajax/getcity.cgi?q=" + $("#cityfield").val();
+          console.log(url);
+          $.getJSON(url, function (data) {
+            var everything;
+            everything = "<ul>";
+            $.each(data, function (i, item) {
+              everything += "<li> " + data[i].city;
+            });
+            everything += "</ul>";
+            $("#txtHint").html(everything);
+          });
+        });
 
-<script>
-$(document).ready(function() {
-	$( "#cityfield" ).keyup(function() {
-		var url = "https://students.cs.byu.edu/~clement/CS360/ajax/getcity.cgi?q="+$("#cityfield").val();
-		console.log(url);
-		$.getJSON(url,function(data) {
-			var everything;
-  			everything = "<ul>";
-  			$.each(data, function(i,item) {
-    			everything += "<li> "+data[i].city;
-  			});
-  			everything += "</ul>";
-  			$("#txtHint").html(everything);
-    	});
-	});
-	$("#button").click(function(e){
-  	var value = $("#cityfield").val();
-  	console.log(value);
-  	e.preventDefault();
-  	$("#dispcity").text(value);
-	});
-});
-</script>
+        $("#button").click(function (e) {
+          var value = $("#cityfield").val();
+          var myurl = 'http://api.wunderground.com/api/ddc5ea23a5d58f6b/conditions/q/UT/' + value + '.json';
+          console.log(value);
+          var everything;
+          $.ajax({
+            url: myurl,
+            dataType: "jsonp",
+            success: function (parsed_json) {
+              console.log("Parsed Response: ");
+              console.log(parsed_json);
+              var image = '"' + parsed_json['current_observation']['icon_url'] + '"';
+              var location = parsed_json['current_observation']['display_location']['city'];
+              var temp_string = parsed_json['current_observation']['temperature_string'];
+              var current_weather = parsed_json['current_observation']['weather'];
+              console.log(image);
+              everything = "<ul>";
+              everything += "<li>Location: " + location;
+              everything += "<li>Temperature: " + temp_string;
+              everything += "<li>Weather: " + current_weather;
+              everything += "</ul>";
+              everything += "<img src= " + image + "alt=Weather image>";
+              $("#weather").html(everything);
+            }
+          });
 
-</head>
-<body>
-<form>
-Enter A Utah City: <input type="text" id="cityfield" value=""><br>
-Suggestion: <span id="txtHint">Empty</span>
-<input id="button" type="submit" value="Submit">
-</form>
-<p>City</p>
-<textarea id="dispcity">No City</textarea>
-<p>Current Weather</p>
-<div id="weather">No weather</div>
+          e.preventDefault();
+          $("#dispcity").text(value);
+					document.getElementById('address').value = value + ", Utah, USA";
+					codeAddress();
+        });
+      });
+    </script>
 
-</body>
+  </head>
+  <body onload="initialize()">
+    <form>
+      Enter A Utah City:
+      <input type="text" id="cityfield" value=""><br>
+      Suggestion:
+      <span id="txtHint">Empty</span>
+      <input id="button" type="submit" value="Submit">
+    </form>
+    <p>City</p>
+    <textarea id="dispcity">No City</textarea>
+    <p>Current Weather</p>
+    <div id="weather">No weather</div><br><br><br>
+    <div>
+      <input id="address" type="textbox" style="width:60%" value="SLC, Utah, USA">
+      <input type="button" value="Geocode" onclick="codeAddress()">
+      <input type="text" id="lat"/>
+      <input type="text" id="lng"/>
+    </div>
+    <div id="map_canvas" style="height:60%;top:30px"></div><br><br><br><br>
+  </body>
 </html>
