@@ -42,7 +42,7 @@
       }
       $(document).ready(function () {
         $("#cityfield").keyup(function () {
-          var url = "https://students.cs.byu.edu/~clement/CS360/ajax/getcity.cgi?q=" + $("#cityfield").val();
+          var url = "http://ec2-52-24-0-1.us-west-2.compute.amazonaws.com:3000/getcity?q=" + $("#cityfield").val();
           console.log(url);
           $.getJSON(url, function (data) {
             var everything;
