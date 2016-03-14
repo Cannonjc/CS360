@@ -1,0 +1,40 @@
+nohup: ignoring input
+
+> expressExample@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/expressExample
+> node ./bin/www
+
+[0mGET /Lab_2 [33m404 [0m19.367 ms - 1176[0m
+[0mGET / [32m200 [0m23.780 ms - 4526[0m
+[0mGET /Lab_0 [33m404 [0m1.888 ms - 1176[0m
+[0mGET /favicon.ico [33m404 [0m3.701 ms - 1176[0m
+[0mGET /Lab_0 [33m404 [0m1.229 ms - 1176[0m
+[0mGET /Lab_1 [33m404 [0m0.940 ms - 1176[0m
+[0mGET /Lab_2 [33m404 [0m1.796 ms - 1176[0m
+[0mGET / [32m200 [0m3.632 ms - 4526[0m
+[0mGET /favicon.ico [33m404 [0m0.762 ms - 1176[0m
+[0mGET / [32m200 [0m1.213 ms - 4526[0m
+[0mGET /Lab_1 [33m404 [0m2.166 ms - 1176[0m
+[0mGET /Lab_2 [33m404 [0m0.799 ms - 1176[0m
+[0mGET /favicon.ico [33m404 [0m1.098 ms - 1176[0m
+Terminated
+
+npm ERR! Linux 3.13.0-71-generic
+npm ERR! argv "/opt/bitnami/nodejs/bin/.node.bin" "/opt/bitnami/nodejs/bin/npm" "start"
+npm ERR! node v5.1.1
+npm ERR! npm  v3.3.12
+npm ERR! code ELIFECYCLE
+npm ERR! expressExample@0.0.0 start: `node ./bin/www`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the expressExample@0.0.0 start script 'node ./bin/www'.
+npm ERR! Make sure you have the latest version of node.js and npm installed.
+npm ERR! If you do, this is most likely a problem with the expressExample package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     node ./bin/www
+npm ERR! You can get their info via:
+npm ERR!     npm owner ls expressExample
+npm ERR! There is likely additional logging output above.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /opt/bitnami/apache2/htdocs/CS360/expressExample/npm-debug.log
