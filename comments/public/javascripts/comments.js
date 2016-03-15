@@ -21,14 +21,14 @@ $(document).ready(function(){
         console.log(data);
         var everything = "<ul>";
         if ($("#Password").val() == "admin") {
-          $("#json").text("Please enter the correct password to get the accurate results");
+          $("#json").text("");
           for(var comment in data) {
           com = data[comment];
           everything += "<li>Name: " + com.Name + " -- Comment: " + com.Comment + "</li>";
           }
         }
         else {
-          $("#json").text("");
+          $("#json").text("Please enter the correct password to get the accurate results");
           for(var comment in data) {
           com = data[comment];
           everything += "<li>Name: " + com.Name.split("").reverse().join("") + " -- Comment: " + com.Comment.split("").reverse().join("") + "</li>";
