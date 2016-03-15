@@ -28,9 +28,10 @@ $(document).ready(function(){
           }
         }
         else {
+          $("#json").text("");
           for(var comment in data) {
           com = data[comment];
-          everything += "<li>Name: " + com.Name.split("").reverse().join(""); + " -- Comment: " + com.Comment.split("").reverse().join(""); + "</li>";
+          everything += "<li>Name: " + com.Name.split("").reverse().join("") + " -- Comment: " + com.Comment.split("").reverse().join("") + "</li>";
           }
         }
         everything += "</ul>";
