@@ -3,23 +3,24 @@ $(document).ready(function(){
         var myobj = {Name:$("#Name").val(),Comment:$("#Comment").val()};
         jobj = JSON.stringify(myobj);
         $("#json").text(jobj);
+        console.log("serializing");
 
-	var url = "comment";
-	$.ajax({
-  	url:url,
-  	type: "POST",
-  	data: jobj,
-  	contentType: "application/json; charset=utf-8",
-  	success: function(data,textStatus) {
-      	$("#done").html(textStatus);
-  	}
-	})
+      	var url = "comment";
+      	$.ajax({
+        	url:url,
+        	type: "POST",
+        	data: jobj,
+        	contentType: "application/json; charset=utf-8",
+        	success: function(data,textStatus) {
+            	$("#done").html(textStatus);
+        	}
+      	})
     });
     $("#getThem").click(function() {
       $.getJSON('comments', function(data) {
         console.log(data);
         var everything = "<ul>";
-        if ($(#Password).val() == "admin") {
+        if ($("#Password").val() == "admin") {
           $("#json").text("Please enter the correct password to get the accurate results");
           for(var comment in data) {
           com = data[comment];
