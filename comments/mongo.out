@@ -1,0 +1,4 @@
+nohup: ignoring input
+about to fork child process, waiting until server is ready for connections.
+forked process: 14612
+ERROR: child process failed, exited with error number 100

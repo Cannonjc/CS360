@@ -1,0 +1,218 @@
+nohup: ignoring input
+
+> comments@0.0.0 start /opt/bitnami/apache2/htdocs/CS360/comments
+> node ./bin/www
+
+Connected
+[0mGET / [32m200 [0m7.494 ms - 701[0m
+[0mGET /javascripts/comments.js [32m200 [0m2.502 ms - 1368[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'testing',
+    Name: 'cannon',
+    _id: 56e06ff51b72f0b43e9c73c7 },
+  { __v: 0,
+    Comment: 'testing1',
+    Name: 'cannon',
+    _id: 56e0700a1b72f0b43e9c73c8 },
+  { __v: 0,
+    Comment: 'testing2',
+    Name: 'cannon',
+    _id: 56e0700d1b72f0b43e9c73c9 },
+  { __v: 0,
+    Comment: 'test1',
+    Name: 'cannon1',
+    _id: 56e070151b72f0b43e9c73ca },
+  { __v: 0,
+    Comment: 'test1',
+    Name: 'cannon2',
+    _id: 56e0701a1b72f0b43e9c73cb },
+  { __v: 0,
+    Comment: 'Testing1',
+    Name: 'Cannon',
+    _id: 56e753b7430c6c4438dd8838 },
+  { __v: 0,
+    Comment: 'This is a test',
+    Name: 'Cannon Collins',
+    _id: 56e7541a220ff89838c257db },
+  { __v: 0,
+    Comment: 'Testing 1 2 3',
+    Name: 'Jake',
+    _id: 56e754678c2759dd383f0cee } ]
+[0mGET /comments [32m200 [0m25.104 ms - 653[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'testing',
+    Name: 'cannon',
+    _id: 56e06ff51b72f0b43e9c73c7 },
+  { __v: 0,
+    Comment: 'testing1',
+    Name: 'cannon',
+    _id: 56e0700a1b72f0b43e9c73c8 },
+  { __v: 0,
+    Comment: 'testing2',
+    Name: 'cannon',
+    _id: 56e0700d1b72f0b43e9c73c9 },
+  { __v: 0,
+    Comment: 'test1',
+    Name: 'cannon1',
+    _id: 56e070151b72f0b43e9c73ca },
+  { __v: 0,
+    Comment: 'test1',
+    Name: 'cannon2',
+    _id: 56e0701a1b72f0b43e9c73cb },
+  { __v: 0,
+    Comment: 'Testing1',
+    Name: 'Cannon',
+    _id: 56e753b7430c6c4438dd8838 },
+  { __v: 0,
+    Comment: 'This is a test',
+    Name: 'Cannon Collins',
+    _id: 56e7541a220ff89838c257db },
+  { __v: 0,
+    Comment: 'Testing 1 2 3',
+    Name: 'Jake',
+    _id: 56e754678c2759dd383f0cee } ]
+[0mGET /comments [32m200 [0m5.680 ms - 653[0m
+[0mGET / [32m200 [0m0.770 ms - 701[0m
+[0mGET /javascripts/comments.js [32m200 [0m0.721 ms - 1368[0m
+[0mGET / [32m200 [0m0.574 ms - 701[0m
+[0mGET /javascripts/comments.js [32m200 [0m0.859 ms - 1368[0m
+[0mGET /favicon.ico [33m404 [0m356.122 ms - 1914[0m
+POST comment route
+{ Name: 'a', Comment: 'a' }
+{ _id: 56e878299848e73439181e76, Comment: 'a', Name: 'a' }
+{ _id: 56e878299848e73439181e76, Comment: 'a', Name: 'a', __v: 0 }
+[0mPOST /comment [32m200 [0m27.645 ms - 2[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'testing',
+    Name: 'cannon',
+    _id: 56e06ff51b72f0b43e9c73c7 },
+  { __v: 0,
+    Comment: 'testing1',
+    Name: 'cannon',
+    _id: 56e0700a1b72f0b43e9c73c8 },
+  { __v: 0,
+    Comment: 'testing2',
+    Name: 'cannon',
+    _id: 56e0700d1b72f0b43e9c73c9 },
+  { __v: 0,
+    Comment: 'test1',
+    Name: 'cannon1',
+    _id: 56e070151b72f0b43e9c73ca },
+  { __v: 0,
+    Comment: 'test1',
+    Name: 'cannon2',
+    _id: 56e0701a1b72f0b43e9c73cb },
+  { __v: 0,
+    Comment: 'Testing1',
+    Name: 'Cannon',
+    _id: 56e753b7430c6c4438dd8838 },
+  { __v: 0,
+    Comment: 'This is a test',
+    Name: 'Cannon Collins',
+    _id: 56e7541a220ff89838c257db },
+  { __v: 0,
+    Comment: 'Testing 1 2 3',
+    Name: 'Jake',
+    _id: 56e754678c2759dd383f0cee },
+  { __v: 0, Comment: 'a', Name: 'a', _id: 56e878299848e73439181e76 } ]
+[0mGET /comments [32m200 [0m6.433 ms - 721[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'testing',
+    Name: 'cannon',
+    _id: 56e06ff51b72f0b43e9c73c7 },
+  { __v: 0,
+    Comment: 'testing1',
+    Name: 'cannon',
+    _id: 56e0700a1b72f0b43e9c73c8 },
+  { __v: 0,
+    Comment: 'testing2',
+    Name: 'cannon',
+    _id: 56e0700d1b72f0b43e9c73c9 },
+  { __v: 0,
+    Comment: 'test1',
+    Name: 'cannon1',
+    _id: 56e070151b72f0b43e9c73ca },
+  { __v: 0,
+    Comment: 'test1',
+    Name: 'cannon2',
+    _id: 56e0701a1b72f0b43e9c73cb },
+  { __v: 0,
+    Comment: 'Testing1',
+    Name: 'Cannon',
+    _id: 56e753b7430c6c4438dd8838 },
+  { __v: 0,
+    Comment: 'This is a test',
+    Name: 'Cannon Collins',
+    _id: 56e7541a220ff89838c257db },
+  { __v: 0,
+    Comment: 'Testing 1 2 3',
+    Name: 'Jake',
+    _id: 56e754678c2759dd383f0cee },
+  { __v: 0, Comment: 'a', Name: 'a', _id: 56e878299848e73439181e76 } ]
+[0mGET /comments [36m304 [0m6.799 ms - -[0m
+In the GET route
+[ { __v: 0,
+    Comment: 'testing',
+    Name: 'cannon',
+    _id: 56e06ff51b72f0b43e9c73c7 },
+  { __v: 0,
+    Comment: 'testing1',
+    Name: 'cannon',
+    _id: 56e0700a1b72f0b43e9c73c8 },
+  { __v: 0,
+    Comment: 'testing2',
+    Name: 'cannon',
+    _id: 56e0700d1b72f0b43e9c73c9 },
+  { __v: 0,
+    Comment: 'test1',
+    Name: 'cannon1',
+    _id: 56e070151b72f0b43e9c73ca },
+  { __v: 0,
+    Comment: 'test1',
+    Name: 'cannon2',
+    _id: 56e0701a1b72f0b43e9c73cb },
+  { __v: 0,
+    Comment: 'Testing1',
+    Name: 'Cannon',
+    _id: 56e753b7430c6c4438dd8838 },
+  { __v: 0,
+    Comment: 'This is a test',
+    Name: 'Cannon Collins',
+    _id: 56e7541a220ff89838c257db },
+  { __v: 0,
+    Comment: 'Testing 1 2 3',
+    Name: 'Jake',
+    _id: 56e754678c2759dd383f0cee },
+  { __v: 0, Comment: 'a', Name: 'a', _id: 56e878299848e73439181e76 } ]
+[0mGET /comments [36m304 [0m7.837 ms - -[0m
+[0mGET / [32m200 [0m1.136 ms - 701[0m
+[0mGET /Lab_1 [33m404 [0m45.675 ms - 1914[0m
+[0mGET /Lab_2 [33m404 [0m37.084 ms - 1914[0m
+[0mGET /Lab_0 [33m404 [0m56.237 ms - 1914[0m
+[0mGET /favicon.ico [33m404 [0m18.119 ms - 1914[0m
+Terminated
+
+npm ERR! Linux 3.13.0-71-generic
+npm ERR! argv "/opt/bitnami/nodejs/bin/.node.bin" "/opt/bitnami/nodejs/bin/npm" "start"
+npm ERR! node v5.1.1
+npm ERR! npm  v3.3.12
+npm ERR! code ELIFECYCLE
+npm ERR! comments@0.0.0 start: `node ./bin/www`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the comments@0.0.0 start script 'node ./bin/www'.
+npm ERR! Make sure you have the latest version of node.js and npm installed.
+npm ERR! If you do, this is most likely a problem with the comments package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     node ./bin/www
+npm ERR! You can get their info via:
+npm ERR!     npm owner ls comments
+npm ERR! There is likely additional logging output above.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /opt/bitnami/apache2/htdocs/CS360/comments/npm-debug.log
