@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Comments</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+    <script src="javascripts/app.js"></script>
+  </head>
+  <body ng-app="comment" ng-controller="MainCtrl">
+    <div>
+      {{test}}
+    </div>
+
+    <div ng-repeat="comment in comments | orderBy: '-upvotes'">
+      {{comment.title}} - upvotes: {{comment.upvotes}}
+    </div>
+  </body>
+</html>
