@@ -46,7 +46,7 @@ angular.module('comment', [])
           angular.copy(data, $scope.comments);
         });
       };
-      $scope.getall();
+      $scope.getAll();
 
     }
   ]);
