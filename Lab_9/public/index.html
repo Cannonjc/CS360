@@ -22,7 +22,7 @@
         </div>
 
         <div ng-repeat="comment in comments | orderBy: '-upvotes'">
-          <span class="glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)">^</span>
+          <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)">^</span>
           {{comment.title}} - upvotes: {{comment.upvotes}}
         </div>
       </div>
