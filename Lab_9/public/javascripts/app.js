@@ -13,8 +13,9 @@ angular.module('comment', [])
       ];
 
       $scope.addComment = function() {
-      $scope.comments.push({title:'A new comment',upvotes:0});
+        $scope.comments.push({title:$scope.formContent,upvotes:0});
+        $scope.formContent='';
       };
-      
+
     }
   ]);

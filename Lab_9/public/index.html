@@ -5,7 +5,10 @@
     <script src="javascripts/app.js"></script>
   </head>
 
-  <button ng-click="addComment()">Add Comment</button>
+  <form ng-submit="addComment()">
+    <input type="text" ng-model="formContent"></input>
+    <button type="submit">Add Comment</button>
+  </form>
   
   <body ng-app="comment" ng-controller="MainCtrl">
     <div>
