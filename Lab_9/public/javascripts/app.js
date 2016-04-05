@@ -1,7 +1,7 @@
 angular.module('comment', [])
   .controller('MainCtrl', [
     '$scope', '$http',
-    function($scope,$http) {
+    function($scope, $http) {
       $scope.test = 'Hello world!';
 
       $scope.comments = [{
@@ -22,7 +22,9 @@ angular.module('comment', [])
       }];
 
       $scope.addComment = function() {
-        if ($scope.formContent === '') {return;}
+        if ($scope.formContent === '') {
+          return;
+        }
         console.log("In addComment with " + $scope.formContent);
         $scope.create({
           title: $scope.formContent,
@@ -32,13 +34,21 @@ angular.module('comment', [])
       };
 
       $scope.create = function(comment) {
-        return $http.post('/comments', comment).success(function(data){
+        return $http.post('/comments', comment).success(function(data) {
           $scope.comments.push(data);
         });
       };
 
       $scope.incrementUpvotes = function(comment) {
-        comment.upvotes += 1;
+        $scope.upvote(comment);
+      };
+
+      $scope.upvote = function(comment) {
+        return $http.put('/comments/' + comment._id + '/upvote')
+          .success(function(data) {
+            console.log("upvote worked");
+            comment.upvotes += 1;
+          });
       };
 
       $scope.getAll = function() {
