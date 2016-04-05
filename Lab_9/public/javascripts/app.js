@@ -3,6 +3,11 @@ angular.module('comment', [])
     '$scope', '$http',
     function($scope, $http) {
       $scope.test = 'Hello world!';
+      $scope.upDown = true;
+
+      $scope.flip = function() {
+        $scope.upDown = !$scope.upDown;
+      }
 
       $scope.comments = [{
         title: 'Comment 1',

@@ -21,7 +21,13 @@
           {{test}}
         </div>
 
-        <div ng-repeat="comment in comments | orderBy: '-upvotes'">
+        <button type="button" ng-click="flip()">Flip Order</button>
+
+        <div ng-repeat="comment in comments | orderBy: '-upvotes'" ng-show="upDown">
+          <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
+          {{comment.title}} - upvotes: {{comment.upvotes}}
+        </div>
+        <div ng-repeat="comment in comments | orderBy: '+upvotes'" ng-show="!upDown">
           <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
           {{comment.title}} - upvotes: {{comment.upvotes}}
         </div>
